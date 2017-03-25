@@ -1,0 +1,13 @@
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\bin\Debug\Triangle.exe.config
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\bin\Debug\Triangle.exe
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\bin\Debug\Triangle.pdb
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\obj\Debug\MainWindow.g.cs
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\obj\Debug\App.g.cs
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\obj\Debug\Triangle_MarkupCompile.cache
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\obj\Debug\Triangle_MarkupCompile.lref
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\obj\Debug\MainWindow.baml
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\obj\Debug\Triangle.g.resources
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\obj\Debug\Triangle.Properties.Resources.resources
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\obj\Debug\Triangle.csproj.GenerateResource.Cache
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\obj\Debug\Triangle.exe
+c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\Triangle\obj\Debug\Triangle.pdb
