@@ -9,13 +9,13 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Media.Media3D;
-using System.Windows.Media.Animation;
 
-namespace Cube
+namespace Topic01
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,22 +25,23 @@ namespace Cube
         public MainWindow()
         {
             InitializeComponent();
-            //Window_Loaded(this,new RoutedEventArgs());
         }
+
+        private double cubeBase = 0; 
 
         MeshGeometry3D MCube()
         {
             MeshGeometry3D cube = new MeshGeometry3D();
             Point3DCollection corners = new
                                    Point3DCollection();
-            corners.Add(new Point3D(0.25, 0.5, 0.25));
-            corners.Add(new Point3D(-0.25, 0.5, 0.25));
-            corners.Add(new Point3D(-0.5, -0.5, 0.5));
-            corners.Add(new Point3D(0.5, -0.5, 0.5));
-            corners.Add(new Point3D(0.25, 0.5, -0.25));
-            corners.Add(new Point3D(-0.25, 0.5, -0.25));
-            corners.Add(new Point3D(-0.5, -0.5, -0.5));
-            corners.Add(new Point3D(0.5, -0.5, -0.5));
+            corners.Add(new Point3D(0.5, cubeBase + 1, 0.5));
+            corners.Add(new Point3D(-0.5, cubeBase + 1, 0.5));
+            corners.Add(new Point3D(-0.5, cubeBase, 0.5));
+            corners.Add(new Point3D(0.5, cubeBase, 0.5));
+            corners.Add(new Point3D(0.5, cubeBase + 1, -0.5));
+            corners.Add(new Point3D(-0.5, cubeBase + 1, -0.5));
+            corners.Add(new Point3D(-0.5, cubeBase, -0.5));
+            corners.Add(new Point3D(0.5, cubeBase, -0.5));
             cube.Positions = corners;
 
             Int32[] indices ={
@@ -116,6 +117,27 @@ namespace Cube
             return cube;
         }
 
+        MeshGeometry3D MStairs(int number)
+        {
+            MeshGeometry3D stairs = new MeshGeometry3D();
+            Point3DCollection corners = new Point3DCollection();
+            for (int i = 0; i<number; i++)
+            {
+                corners.Add(new Point3D(0.5, cubeBase + 1, 0.5));
+                corners.Add(new Point3D(-0.5, cubeBase + 1, 0.5));
+                corners.Add(new Point3D(-0.5, cubeBase, 0.5));
+                corners.Add(new Point3D(0.5, cubeBase, 0.5));
+                corners.Add(new Point3D(0.5, cubeBase + 1, -0.5));
+                corners.Add(new Point3D(-0.5, cubeBase + 1, -0.5));
+                corners.Add(new Point3D(-0.5, cubeBase, -0.5));
+                corners.Add(new Point3D(0.5, cubeBase, -0.5));
+                stairs.Positions = corners;
+            }
+
+
+            return stairs;
+
+        }
 
         private void Window_Loaded(object sender,
                                   RoutedEventArgs e)
@@ -170,10 +192,10 @@ namespace Cube
             myViewport.Children.Add(modelsVisual);
             Canvas1.Children.Add(myViewport);
 
-           // this.Content = myViewport;
+            // this.Content = myViewport;
 
-            myViewport.Height = 500;
-            myViewport.Width = 500;
+            myViewport.Height = 800;
+            myViewport.Width = 800;
             Canvas.SetTop(myViewport, 0);
             Canvas.SetLeft(myViewport, 0);
             this.Width = myViewport.Width;

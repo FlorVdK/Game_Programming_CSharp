@@ -15,3 +15,17 @@ c:\users\katja.verbeeck\documents\visual studio 2015\Projects\EightBall\EightBal
 C:\Users\katja.verbeeck\Google Drive\onderwijs\MMT\2015-2016\opdracht 3D\EightBall\EightBall\bin\Debug\EightBall.exe.config
 C:\Users\katja.verbeeck\Google Drive\onderwijs\MMT\2015-2016\opdracht 3D\EightBall\EightBall\obj\Debug\EightBall.exe
 C:\Users\katja.verbeeck\Google Drive\onderwijs\MMT\2015-2016\opdracht 3D\EightBall\EightBall\obj\Debug\EightBall.pdb
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\bin\Debug\EightBall.exe.config
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\obj\Debug\EightBall.exe
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\obj\Debug\EightBall.pdb
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\bin\Debug\EightBall.exe
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\bin\Debug\EightBall.pdb
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\obj\Debug\EightBall.csprojResolveAssemblyReference.cache
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\obj\Debug\MainWindow.g.cs
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\obj\Debug\App.g.cs
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\obj\Debug\EightBall_MarkupCompile.cache
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\obj\Debug\EightBall_MarkupCompile.lref
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\obj\Debug\MainWindow.baml
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\obj\Debug\EightBall.g.resources
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\obj\Debug\EightBall.Properties.Resources.resources
+E:\School\C#tech\1617GPVandeKerckhoveFlor\EightBall\EightBall\obj\Debug\EightBall.csproj.GenerateResource.Cache
