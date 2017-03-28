@@ -245,6 +245,7 @@ namespace Topic01
             corners.Add(new Point3D(-headStoneWidth, cubeBaseWidth + headStoneHeigth, -headStoneWidth));
             corners.Add(new Point3D(-cubeBaseWidth , cubeBaseWidth, -cubeBaseWidth ));
             corners.Add(new Point3D(cubeBaseWidth , cubeBaseWidth, -cubeBaseWidth ));
+            Console.WriteLine(cubeBaseWidth + headStoneHeigth);
 
             headStone.Positions = corners;
 
@@ -324,39 +325,35 @@ namespace Topic01
         private void Window_Loaded(object sender,
                                   RoutedEventArgs e)
         {
-            GeometryModel3D Cube1 =
-                                 new GeometryModel3D();
+            GeometryModel3D Cube1 =new GeometryModel3D();
             MeshGeometry3D cubeMesh = MCube();
             Cube1.Geometry = cubeMesh;
 
-            Cube1.Material = new DiffuseMaterial(
-                     new SolidColorBrush(Colors.Azure));
+            Cube1.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
-            GeometryModel3D stairs1 =
-                                 new GeometryModel3D();
+            GeometryModel3D stairs1 =new GeometryModel3D();
             MeshGeometry3D stairMesh = MStairs(10);
             stairs1.Geometry = stairMesh;
 
-            stairs1.Material = new DiffuseMaterial(
-                     new SolidColorBrush(Colors.Azure));
+            stairs1.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
-            GeometryModel3D headStone =
-                                 new GeometryModel3D();
+            GeometryModel3D headStone =new GeometryModel3D();
             MeshGeometry3D headStoneMesh = MHeadstone();
             headStone.Geometry = headStoneMesh;
 
-            headStone.Material = new DiffuseMaterial(
-                     new SolidColorBrush(Colors.Azure));
+            headStone.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
             // Make the surface's material using an image brush.
-            //ImageBrush colors_brush = new ImageBrush();
-            //colors_brush.ImageSource =
-            //    new BitmapImage(new Uri("wood.jpg", UriKind.Relative));
-            //DiffuseMaterial colors_material =
-            //    new DiffuseMaterial(colors_brush);
+            ImageBrush colors_brush = new ImageBrush();
+            colors_brush.ImageSource = new BitmapImage(new Uri("wood.jpg", UriKind.Relative));
+            DiffuseMaterial colors_material = new DiffuseMaterial(colors_brush);
 
-            //Cube1.Material = colors_material;
-            //stairs1.Material = colors_material;
+            Cube1.Material = colors_material;
+            stairs1.Material = colors_material;
+            headStone.Material = colors_material;
+            Cube1.BackMaterial = colors_material;
+            stairs1.BackMaterial = colors_material;
+            headStone.BackMaterial = colors_material;
 
 
 
@@ -372,9 +369,9 @@ namespace Topic01
             Camera1.FarPlaneDistance = 45;
             Camera1.NearPlaneDistance = 1;
             Camera1.FieldOfView = 45;
-            Camera1.Position = new Point3D(8, 8, 12);
+            Camera1.Position = new Point3D(12, 4, 16);
             Camera1.LookDirection =
-                              new Vector3D(-8, -8, -12);
+                              new Vector3D(-8, -2, -12);
             Camera1.UpDirection =
                                  new Vector3D(0, 1, 0);
 
@@ -402,31 +399,24 @@ namespace Topic01
             this.Width = myViewport.Width;
             this.Height = myViewport.Height;
 
-            /*AxisAngleRotation3D axis =
-                         new AxisAngleRotation3D(
-                           new Vector3D(0, 1, 0), 0);
-            RotateTransform3D Rotate =
-                         new RotateTransform3D(axis);
+            AxisAngleRotation3D axis = new AxisAngleRotation3D(new Vector3D(0, 1, 0), 0);
+            RotateTransform3D Rotate = new RotateTransform3D(axis);
             Cube1.Transform = Rotate;
-            DoubleAnimation RotAngle =
-                               new DoubleAnimation();
+            stairs1.Transform = Rotate;
+            headStone.Transform = Rotate;
+            DoubleAnimation RotAngle = new DoubleAnimation();
             RotAngle.From = 0;
             RotAngle.To = 360;
-            RotAngle.Duration = new Duration(
-                         TimeSpan.FromSeconds(20.0));
-            RotAngle.RepeatBehavior =
-                             RepeatBehavior.Forever;
-            NameScope.SetNameScope(Canvas1,
-                                   new NameScope());
+            RotAngle.Duration = new Duration(TimeSpan.FromSeconds(20.0));
+            RotAngle.RepeatBehavior =RepeatBehavior.Forever;
+            NameScope.SetNameScope(Canvas1,new NameScope());
             Canvas1.RegisterName("cubeaxis", axis);
-            Storyboard.SetTargetName(RotAngle,
-                                       "cubeaxis");
+            Storyboard.SetTargetName(RotAngle,"cubeaxis");
             Storyboard.SetTargetProperty(RotAngle,
-             new PropertyPath(
-                AxisAngleRotation3D.AngleProperty));
+             new PropertyPath(AxisAngleRotation3D.AngleProperty));
             Storyboard RotCube = new Storyboard();
             RotCube.Children.Add(RotAngle);
-            RotCube.Begin(Canvas1);*/
+            RotCube.Begin(Canvas1);
         }
     }
 }
