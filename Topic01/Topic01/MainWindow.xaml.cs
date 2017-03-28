@@ -37,6 +37,9 @@ namespace Topic01
         public static double pillarTopWidth = headStoneWidth/4;
         public static double pillarHeigth = cubeBaseWidth * 6;
         public static double pillarTop = headStoneTop + pillarHeigth;
+        public static double piramideBottomWidth = pillarTopWidth;
+        public static double piramideHeight = piramideBottomWidth;
+        public static double piramideTop = pillarTop + piramideHeight;
 
         MeshGeometry3D MCube()
         {
@@ -77,12 +80,6 @@ namespace Topic01
               //Left
                  5,6,14,
                  5,14,13,
-              //Top
-                 0,5,12,
-                 0,12,13,
-              //Bottom
-                 3,6,14,
-                 3,14,15,
               //cut deep 
                  8,9,10,
                  8,10,11,
@@ -281,6 +278,46 @@ namespace Topic01
             return pillar;
         }
 
+        MeshGeometry3D MPiramide()
+        {
+            MeshGeometry3D pillar = new MeshGeometry3D();
+            Point3DCollection corners = new Point3DCollection();
+
+            corners.Add(new Point3D(0, piramideTop, 0));
+            corners.Add(new Point3D(-piramideBottomWidth, pillarTop, piramideBottomWidth));
+            corners.Add(new Point3D(piramideBottomWidth, pillarTop, piramideBottomWidth));
+            corners.Add(new Point3D(-piramideBottomWidth, pillarTop, -piramideBottomWidth));
+            corners.Add(new Point3D(piramideBottomWidth, pillarTop, -piramideBottomWidth));
+            Console.WriteLine(piramideTop);
+
+            pillar.Positions = corners;
+
+            Int32[] indices ={
+            //front
+                0,1,2,
+                0,2,3,
+                0,3,4,
+                0,4,5
+              };
+
+            Int32Collection Triangles = new Int32Collection();
+
+            foreach (Int32 index in indices)
+            {
+                Triangles.Add(index);
+            }
+
+            pillar.TriangleIndices = Triangles;
+
+            //adding TextureCoordinates
+
+            PointCollection woodpoints = new PointCollection();
+            woodpoints = getwoodpoints();
+            pillar.TextureCoordinates = woodpoints;
+
+            return pillar;
+        }
+
         private PointCollection getwoodpoints()
         {
             PointCollection woodpoints = new PointCollection();
@@ -347,6 +384,12 @@ namespace Topic01
 
             pillar.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
+            GeometryModel3D piramide = new GeometryModel3D();
+            MeshGeometry3D piramideMesh = MPiramide();
+            piramide.Geometry = piramideMesh;
+
+            piramide.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+
             // Make the surface's material using an image brush.
             ImageBrush colors_brush = new ImageBrush();
             colors_brush.ImageSource = new BitmapImage(new Uri("wood.jpg", UriKind.Relative));
@@ -356,26 +399,22 @@ namespace Topic01
             stairs1.Material = colors_material;
             headStone.Material = colors_material;
             pillar.Material = colors_material;
+            piramide.Material = colors_material;
             Cube1.BackMaterial = colors_material;
             stairs1.BackMaterial = colors_material;
             headStone.BackMaterial = colors_material;
             pillar.BackMaterial = colors_material;
+            piramide.BackMaterial = colors_material;
 
-
-
-
-            DirectionalLight DirLight1 =
-                                new DirectionalLight();
+            DirectionalLight DirLight1 = new DirectionalLight();
             DirLight1.Color = Colors.White;
-            DirLight1.Direction =
-                              new Vector3D(-1, -1, -1);
+            DirLight1.Direction = new Vector3D(-1, -1, -1);
 
-            PerspectiveCamera Camera1 =
-                               new PerspectiveCamera();
-            Camera1.FarPlaneDistance = 45;
+            PerspectiveCamera Camera1 =new PerspectiveCamera();
+            Camera1.FarPlaneDistance = 60;
             Camera1.NearPlaneDistance = 1;
-            Camera1.FieldOfView = 45;
-            Camera1.Position = new Point3D(12, 4, 16);
+            Camera1.FieldOfView = 60;
+            Camera1.Position = new Point3D(24, 20, 32);
             Camera1.LookDirection =
                               new Vector3D(-8, -2, -12);
             Camera1.UpDirection =
@@ -387,6 +426,7 @@ namespace Topic01
             modelGroup.Children.Add(stairs1);
             modelGroup.Children.Add(headStone);
             modelGroup.Children.Add(pillar);
+            modelGroup.Children.Add(piramide);
             modelGroup.Children.Add(DirLight1);
             ModelVisual3D modelsVisual =
                                    new ModelVisual3D();
@@ -399,7 +439,7 @@ namespace Topic01
 
             // this.Content = myViewport;
 
-            myViewport.Height = 800;
+            myViewport.Height = 1000;
             myViewport.Width = 800;
             Canvas.SetTop(myViewport, 0);
             Canvas.SetLeft(myViewport, 0);
@@ -412,6 +452,7 @@ namespace Topic01
             stairs1.Transform = Rotate;
             headStone.Transform = Rotate;
             pillar.Transform = Rotate;
+            piramide.Transform = Rotate;
             DoubleAnimation RotAngle = new DoubleAnimation();
             RotAngle.From = 0;
             RotAngle.To = 360;
