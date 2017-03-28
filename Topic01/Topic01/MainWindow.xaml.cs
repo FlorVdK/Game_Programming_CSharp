@@ -27,11 +27,16 @@ namespace Topic01
             InitializeComponent();
         }
 
-        private double cubeBaseHeight = 0;
-        private double cubeBaseWidth = 4;
-        double space;
-        double headStoneHeigth = 1;
-        double headStoneWidth = 5;
+        public static double cubeBaseHeight = 0;
+        public static double cubeBaseWidth = 4;
+        public static double space;
+        public static double headStoneHeigth = 1;
+        public static double headStoneWidth = cubeBaseWidth + 1;
+        public static double headStoneTop = cubeBaseWidth + headStoneHeigth;
+        public static double pillarBottomWidth = 4 * cubeBaseWidth / 6;
+        public static double pillarTopWidth = headStoneWidth/4;
+        public static double pillarHeigth = cubeBaseWidth * 6;
+        public static double pillarTop = headStoneTop + pillarHeigth;
 
         MeshGeometry3D MCube()
         {
@@ -100,41 +105,7 @@ namespace Topic01
             //adding TextureCoordinates
 
             PointCollection woodpoints = new PointCollection();
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(1, 1));
-
-
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(1, 1));
-
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-
+            woodpoints = getwoodpoints();
             cube.TextureCoordinates = woodpoints;
 
             return cube;
@@ -192,41 +163,7 @@ namespace Topic01
             //adding TextureCoordinates
 
             PointCollection woodpoints = new PointCollection();
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(1, 1));
-
-
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(1, 1));
-
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-
+            woodpoints = getwoodpoints();
             stairs.TextureCoordinates = woodpoints;
 
             return stairs;
@@ -237,12 +174,12 @@ namespace Topic01
             MeshGeometry3D headStone = new MeshGeometry3D();
             Point3DCollection corners = new Point3DCollection();
 
-            corners.Add(new Point3D(headStoneWidth, cubeBaseWidth + headStoneHeigth, headStoneWidth));
-            corners.Add(new Point3D(-headStoneWidth, cubeBaseWidth + headStoneHeigth, headStoneWidth));
+            corners.Add(new Point3D(headStoneWidth, headStoneTop, headStoneWidth));
+            corners.Add(new Point3D(-headStoneWidth, headStoneTop, headStoneWidth));
             corners.Add(new Point3D(-cubeBaseWidth , cubeBaseWidth, cubeBaseWidth));
             corners.Add(new Point3D(cubeBaseWidth , cubeBaseWidth, cubeBaseWidth ));
-            corners.Add(new Point3D(headStoneWidth, cubeBaseWidth + headStoneHeigth, -headStoneWidth));
-            corners.Add(new Point3D(-headStoneWidth, cubeBaseWidth + headStoneHeigth, -headStoneWidth));
+            corners.Add(new Point3D(headStoneWidth, headStoneTop, -headStoneWidth));
+            corners.Add(new Point3D(-headStoneWidth, headStoneTop, -headStoneWidth));
             corners.Add(new Point3D(-cubeBaseWidth , cubeBaseWidth, -cubeBaseWidth ));
             corners.Add(new Point3D(cubeBaseWidth , cubeBaseWidth, -cubeBaseWidth ));
             Console.WriteLine(cubeBaseWidth + headStoneHeigth);
@@ -282,44 +219,105 @@ namespace Topic01
             //adding TextureCoordinates
 
             PointCollection woodpoints = new PointCollection();
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(1, 1));
-
-
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(1, 1));
-
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-            woodpoints.Add(new Point(1, 0));
-            woodpoints.Add(new Point(0, 0));
-            woodpoints.Add(new Point(0, 1));
-            woodpoints.Add(new Point(1, 1));
-
-
+            woodpoints = getwoodpoints();
             headStone.TextureCoordinates = woodpoints;
 
             return headStone;
+        }
+
+        MeshGeometry3D MPillar()
+        {
+            MeshGeometry3D pillar = new MeshGeometry3D();
+            Point3DCollection corners = new Point3DCollection();
+
+            corners.Add(new Point3D(pillarTopWidth, pillarTop, pillarTopWidth));
+            corners.Add(new Point3D(-pillarTopWidth, pillarTop, pillarTopWidth));
+            corners.Add(new Point3D(-pillarBottomWidth, headStoneTop, pillarBottomWidth));
+            corners.Add(new Point3D(pillarBottomWidth, headStoneTop, pillarBottomWidth));
+            corners.Add(new Point3D(pillarTopWidth, pillarTop, -pillarTopWidth));
+            corners.Add(new Point3D(-pillarTopWidth, pillarTop, -pillarTopWidth));
+            corners.Add(new Point3D(-pillarBottomWidth, headStoneTop, -pillarBottomWidth));
+            corners.Add(new Point3D(pillarBottomWidth, headStoneTop, -pillarBottomWidth));
+            Console.WriteLine(cubeBaseWidth + headStoneHeigth);
+
+            pillar.Positions = corners;
+
+            Int32[] indices ={
+            //front
+                0,1,2,
+                0,2,3,
+            //back
+               4,7,6,
+                4,6,5,
+              //Right
+                4,0,3,
+                4,3,7,
+              //Left
+                1,5,6,
+                 1,6,2,
+              //Top
+                 1,0,4,
+                 1,4,5,
+              //Bottom
+                 2,6,7,
+                 2,7,3
+              };
+
+            Int32Collection Triangles = new Int32Collection();
+
+            foreach (Int32 index in indices)
+            {
+                Triangles.Add(index);
+            }
+
+            pillar.TriangleIndices = Triangles;
+
+            //adding TextureCoordinates
+
+            PointCollection woodpoints = new PointCollection();
+            woodpoints = getwoodpoints();
+            pillar.TextureCoordinates = woodpoints;
+
+            return pillar;
+        }
+
+        private PointCollection getwoodpoints()
+        {
+            PointCollection woodpoints = new PointCollection();
+            woodpoints.Add(new Point(1, 0));
+            woodpoints.Add(new Point(0, 0));
+            woodpoints.Add(new Point(0, 1));
+            woodpoints.Add(new Point(1, 1));
+
+            woodpoints.Add(new Point(1, 0));
+            woodpoints.Add(new Point(0, 0));
+            woodpoints.Add(new Point(0, 1));
+            woodpoints.Add(new Point(1, 1));
+
+
+            woodpoints.Add(new Point(0, 1));
+            woodpoints.Add(new Point(0, 0));
+            woodpoints.Add(new Point(1, 0));
+            woodpoints.Add(new Point(1, 1));
+
+
+            woodpoints.Add(new Point(0, 1));
+            woodpoints.Add(new Point(0, 0));
+            woodpoints.Add(new Point(1, 0));
+            woodpoints.Add(new Point(1, 1));
+
+
+            woodpoints.Add(new Point(1, 0));
+            woodpoints.Add(new Point(0, 0));
+            woodpoints.Add(new Point(0, 1));
+            woodpoints.Add(new Point(1, 1));
+
+            woodpoints.Add(new Point(1, 0));
+            woodpoints.Add(new Point(0, 0));
+            woodpoints.Add(new Point(0, 1));
+            woodpoints.Add(new Point(1, 1));
+            return woodpoints;
+
         }
 
         private void Window_Loaded(object sender,
@@ -343,6 +341,12 @@ namespace Topic01
 
             headStone.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
+            GeometryModel3D pillar = new GeometryModel3D();
+            MeshGeometry3D pillarMesh = MPillar();
+            pillar.Geometry = pillarMesh;
+
+            pillar.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+
             // Make the surface's material using an image brush.
             ImageBrush colors_brush = new ImageBrush();
             colors_brush.ImageSource = new BitmapImage(new Uri("wood.jpg", UriKind.Relative));
@@ -351,9 +355,11 @@ namespace Topic01
             Cube1.Material = colors_material;
             stairs1.Material = colors_material;
             headStone.Material = colors_material;
+            pillar.Material = colors_material;
             Cube1.BackMaterial = colors_material;
             stairs1.BackMaterial = colors_material;
             headStone.BackMaterial = colors_material;
+            pillar.BackMaterial = colors_material;
 
 
 
@@ -380,6 +386,7 @@ namespace Topic01
             modelGroup.Children.Add(Cube1);
             modelGroup.Children.Add(stairs1);
             modelGroup.Children.Add(headStone);
+            modelGroup.Children.Add(pillar);
             modelGroup.Children.Add(DirLight1);
             ModelVisual3D modelsVisual =
                                    new ModelVisual3D();
@@ -404,6 +411,7 @@ namespace Topic01
             Cube1.Transform = Rotate;
             stairs1.Transform = Rotate;
             headStone.Transform = Rotate;
+            pillar.Transform = Rotate;
             DoubleAnimation RotAngle = new DoubleAnimation();
             RotAngle.From = 0;
             RotAngle.To = 360;
