@@ -344,7 +344,7 @@ namespace howto_3D_smooth_sphere
             }
 
             // Update the camera's position.
-            è!();
+            PositionCamera();
         }
 
         // Position the camera.

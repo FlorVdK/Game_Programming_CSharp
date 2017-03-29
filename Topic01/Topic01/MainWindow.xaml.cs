@@ -28,12 +28,16 @@ namespace Topic01
             InitializeComponent();
         }
 
-        public static double cubeBaseHeight = 0;
+        public static double cubeBaseHeight = 2;
         public static double cubeBaseWidth = 4;
-        public static double space;
+        public static double cubeBaseTop = cubeBaseWidth + cubeBaseHeight;
+        public static double baseCubeHeight = 2;
+        public static double baseCubeBase = cubeBaseHeight - baseCubeHeight;
+        public static double stairHeigth = 0.2;
+        public static double stairwidth = 0.5;
         public static double headStoneHeigth = 1;
         public static double headStoneWidth = cubeBaseWidth + 1;
-        public static double headStoneTop = cubeBaseWidth + headStoneHeigth;
+        public static double headStoneTop = cubeBaseTop + headStoneHeigth;
         public static double pillarBottomWidth = 4 * cubeBaseWidth / 6;
         public static double pillarTopWidth = headStoneWidth/4;
         public static double pillarHeigth = cubeBaseWidth * 8;
@@ -51,20 +55,20 @@ namespace Topic01
             MeshGeometry3D cube = new MeshGeometry3D();
             Point3DCollection corners = new
                                    Point3DCollection();
-            corners.Add(new Point3D(cubeBaseWidth , cubeBaseHeight + cubeBaseWidth, cubeBaseWidth));
-            corners.Add(new Point3D(cubeBaseWidth * 0.75, cubeBaseHeight + cubeBaseWidth, cubeBaseWidth));
+            corners.Add(new Point3D(cubeBaseWidth , cubeBaseTop, cubeBaseWidth));
+            corners.Add(new Point3D(cubeBaseWidth * 0.75, cubeBaseTop, cubeBaseWidth));
             corners.Add(new Point3D(cubeBaseWidth * 0.75, cubeBaseHeight, cubeBaseWidth));
             corners.Add(new Point3D(cubeBaseWidth, cubeBaseHeight, cubeBaseWidth));
-            corners.Add(new Point3D(-cubeBaseWidth * 0.75, cubeBaseHeight + cubeBaseWidth, cubeBaseWidth));
+            corners.Add(new Point3D(-cubeBaseWidth * 0.75, cubeBaseTop, cubeBaseWidth));
             corners.Add(new Point3D(-cubeBaseWidth, cubeBaseHeight + cubeBaseWidth, cubeBaseWidth));
             corners.Add(new Point3D(-cubeBaseWidth, cubeBaseHeight, cubeBaseWidth));
             corners.Add(new Point3D(-cubeBaseWidth * 0.75, cubeBaseHeight, cubeBaseWidth));
-            corners.Add(new Point3D(cubeBaseWidth * 0.75, cubeBaseHeight + cubeBaseWidth, cubeBaseWidth * 0.75));
-            corners.Add(new Point3D(-cubeBaseWidth * 0.75, cubeBaseHeight + cubeBaseWidth, cubeBaseWidth * 0.75));
+            corners.Add(new Point3D(cubeBaseWidth * 0.75, cubeBaseTop, cubeBaseWidth * 0.75));
+            corners.Add(new Point3D(-cubeBaseWidth * 0.75, cubeBaseTop, cubeBaseWidth * 0.75));
             corners.Add(new Point3D(-cubeBaseWidth * 0.75, cubeBaseHeight, cubeBaseWidth * 0.75));
             corners.Add(new Point3D(cubeBaseWidth * 0.75, cubeBaseHeight, cubeBaseWidth * 0.75));
-            corners.Add(new Point3D(cubeBaseWidth, cubeBaseHeight + cubeBaseWidth , -cubeBaseWidth));
-            corners.Add(new Point3D(-cubeBaseWidth, cubeBaseHeight + cubeBaseWidth , -cubeBaseWidth));
+            corners.Add(new Point3D(cubeBaseWidth, cubeBaseTop, -cubeBaseWidth));
+            corners.Add(new Point3D(-cubeBaseWidth, cubeBaseTop, -cubeBaseWidth));
             corners.Add(new Point3D(-cubeBaseWidth, cubeBaseHeight, -cubeBaseWidth));
             corners.Add(new Point3D(cubeBaseWidth , cubeBaseHeight, -cubeBaseWidth ));
             cube.Positions = corners;
@@ -117,17 +121,16 @@ namespace Topic01
         {
             MeshGeometry3D stairs = new MeshGeometry3D();
             Point3DCollection corners = new Point3DCollection();
-            space = 0.2;
             for (int i = 0; i<number; i++)
             {
-                corners.Add(new Point3D(cubeBaseWidth + space * (i + 1), cubeBaseHeight - space * i, cubeBaseWidth + space * (i + 1)));
-                corners.Add(new Point3D(-cubeBaseWidth - space * (i + 1), cubeBaseHeight - space * i, cubeBaseWidth + space * (i + 1)));
-                corners.Add(new Point3D(-cubeBaseWidth - space * (i + 1), cubeBaseHeight - space * (i + 1), cubeBaseWidth + space * (i + 1)));
-                corners.Add(new Point3D(cubeBaseWidth + space * (i + 1), cubeBaseHeight - space * (i + 1), cubeBaseWidth + space * (i + 1)));
-                corners.Add(new Point3D(cubeBaseWidth + space * (i + 1), cubeBaseHeight - space * i, -cubeBaseWidth - space * (i + 1)));
-                corners.Add(new Point3D(-cubeBaseWidth - space * (i + 1), cubeBaseHeight - space * i, -cubeBaseWidth - space * (i + 1)));
-                corners.Add(new Point3D(-cubeBaseWidth - space * (i + 1), cubeBaseHeight - space * (i + 1), -cubeBaseWidth - space * (i + 1)));
-                corners.Add(new Point3D(cubeBaseWidth + space * (i + 1), cubeBaseHeight - space * (i + 1), -cubeBaseWidth - space * (i + 1)));
+                corners.Add(new Point3D(headStoneWidth + stairwidth * (i + 1), baseCubeBase - stairHeigth * i, headStoneWidth + stairwidth * (i + 1)));
+                corners.Add(new Point3D(-headStoneWidth - stairwidth * (i + 1), baseCubeBase - stairHeigth * i, headStoneWidth + stairwidth * (i + 1)));
+                corners.Add(new Point3D(-headStoneWidth - stairwidth * (i + 1), baseCubeBase - stairHeigth * (i + 1), headStoneWidth + stairwidth * (i + 1)));
+                corners.Add(new Point3D(headStoneWidth + stairwidth * (i + 1), baseCubeBase - stairHeigth * (i + 1), headStoneWidth + stairwidth * (i + 1)));
+                corners.Add(new Point3D(headStoneWidth + stairwidth * (i + 1), baseCubeBase - stairHeigth * i, -headStoneWidth - stairwidth * (i + 1)));
+                corners.Add(new Point3D(-headStoneWidth - stairwidth * (i + 1), baseCubeBase - stairHeigth * i, -headStoneWidth - stairwidth * (i + 1)));
+                corners.Add(new Point3D(-headStoneWidth - stairwidth * (i + 1), baseCubeBase - stairHeigth * (i + 1), -headStoneWidth - stairwidth * (i + 1)));
+                corners.Add(new Point3D(headStoneWidth + stairwidth * (i + 1), baseCubeBase - stairHeigth * (i + 1), -headStoneWidth - stairwidth * (i + 1)));
             }
             stairs.Positions = corners;
 
@@ -178,12 +181,12 @@ namespace Topic01
 
             corners.Add(new Point3D(headStoneWidth, headStoneTop, headStoneWidth));
             corners.Add(new Point3D(-headStoneWidth, headStoneTop, headStoneWidth));
-            corners.Add(new Point3D(-cubeBaseWidth , cubeBaseWidth, cubeBaseWidth));
-            corners.Add(new Point3D(cubeBaseWidth , cubeBaseWidth, cubeBaseWidth ));
+            corners.Add(new Point3D(-cubeBaseWidth , cubeBaseTop, cubeBaseWidth));
+            corners.Add(new Point3D(cubeBaseWidth , cubeBaseTop, cubeBaseWidth ));
             corners.Add(new Point3D(headStoneWidth, headStoneTop, -headStoneWidth));
             corners.Add(new Point3D(-headStoneWidth, headStoneTop, -headStoneWidth));
-            corners.Add(new Point3D(-cubeBaseWidth , cubeBaseWidth, -cubeBaseWidth ));
-            corners.Add(new Point3D(cubeBaseWidth , cubeBaseWidth, -cubeBaseWidth ));
+            corners.Add(new Point3D(-cubeBaseWidth , cubeBaseTop, -cubeBaseWidth ));
+            corners.Add(new Point3D(cubeBaseWidth , cubeBaseTop, -cubeBaseWidth ));
             Console.WriteLine(cubeBaseWidth + headStoneHeigth);
 
             headStone.Positions = corners;
@@ -225,6 +228,62 @@ namespace Topic01
             headStone.TextureCoordinates = woodpoints;
 
             return headStone;
+        }
+
+        MeshGeometry3D MBaseCube()
+        {
+            MeshGeometry3D baseCube = new MeshGeometry3D();
+            Point3DCollection corners = new Point3DCollection();
+
+            corners.Add(new Point3D(headStoneWidth - 0.5, baseCubeHeight, headStoneWidth - 0.5));
+            corners.Add(new Point3D(-headStoneWidth + 0.5, baseCubeHeight, headStoneWidth - 0.5));
+            corners.Add(new Point3D(-headStoneWidth, baseCubeBase, headStoneWidth));
+            corners.Add(new Point3D(headStoneWidth, baseCubeBase, headStoneWidth));
+            corners.Add(new Point3D(headStoneWidth - 0.5, baseCubeHeight, -headStoneWidth + 0.5));
+            corners.Add(new Point3D(-headStoneWidth + 0.5, baseCubeHeight, -headStoneWidth + 0.5));
+            corners.Add(new Point3D(-headStoneWidth, baseCubeBase, -headStoneWidth));
+            corners.Add(new Point3D(headStoneWidth, baseCubeBase, -headStoneWidth));
+            Console.WriteLine(cubeBaseWidth + headStoneHeigth);
+
+            baseCube.Positions = corners;
+
+            Int32[] indices ={
+            //front
+                0,1,2,
+                0,2,3,
+            //back
+               4,7,6,
+                4,6,5,
+              //Right
+                4,0,3,
+                4,3,7,
+              //Left
+                1,5,6,
+                 1,6,2,
+              //Top
+                 1,0,4,
+                 1,4,5,
+              //Bottom
+                 2,6,7,
+                 2,7,3
+              };
+
+            Int32Collection Triangles = new Int32Collection();
+
+            foreach (Int32 index in indices)
+            {
+                Triangles.Add(index);
+            }
+
+            baseCube.TriangleIndices = Triangles;
+
+            //adding TextureCoordinates
+
+            PointCollection woodpoints = new PointCollection();
+            woodpoints = getwoodpoints();
+            baseCube.TextureCoordinates = woodpoints;
+
+            return baseCube;
         }
 
         MeshGeometry3D MPillar()
@@ -323,6 +382,59 @@ namespace Topic01
             return pillar;
         }
 
+        MeshGeometry3D MPlacard()
+        {
+            MeshGeometry3D placard = new MeshGeometry3D();
+            Point3DCollection corners = new Point3DCollection();
+
+            corners.Add(new Point3D(cubeBaseWidth * 0.65, cubeBaseHeight + cubeBaseWidth *3/4, cubeBaseWidth * 0.85));
+            corners.Add(new Point3D(-cubeBaseWidth * 0.65, cubeBaseHeight + cubeBaseWidth * 3 / 4, cubeBaseWidth * 0.85));
+            corners.Add(new Point3D(-cubeBaseWidth * 0.65, cubeBaseHeight + cubeBaseWidth  / 4, cubeBaseWidth * 0.85));
+            corners.Add(new Point3D(cubeBaseWidth * 0.65, cubeBaseHeight + cubeBaseWidth  / 4, cubeBaseWidth * 0.85));
+            corners.Add(new Point3D(cubeBaseWidth * 0.65, cubeBaseHeight + cubeBaseWidth * 3 / 4, cubeBaseWidth * 0.75));
+            corners.Add(new Point3D(-cubeBaseWidth * 0.65, cubeBaseHeight + cubeBaseWidth * 3 / 4, cubeBaseWidth * 0.75));
+            corners.Add(new Point3D(-cubeBaseWidth * 0.65, cubeBaseHeight + cubeBaseWidth  / 4, cubeBaseWidth * 0.75));
+            corners.Add(new Point3D(cubeBaseWidth * 0.65, cubeBaseHeight + cubeBaseWidth  / 4, cubeBaseWidth * 0.75));
+            Console.WriteLine(cubeBaseWidth + headStoneHeigth);
+
+            placard.Positions = corners;
+
+            Int32[] indices ={
+            //front
+                0,1,2,
+                0,2,3,
+              //Right
+                4,0,3,
+                4,3,7,
+              //Left
+                1,5,6,
+                 1,6,2,
+              //Top
+                 1,0,4,
+                 1,4,5,
+              //Bottom
+                 2,6,7,
+                 2,7,3
+              };
+
+            Int32Collection Triangles = new Int32Collection();
+
+            foreach (Int32 index in indices)
+            {
+                Triangles.Add(index);
+            }
+
+            placard.TriangleIndices = Triangles;
+
+            //adding TextureCoordinates
+
+            PointCollection woodpoints = new PointCollection();
+            woodpoints = getwoodpoints();
+            placard.TextureCoordinates = woodpoints;
+
+            return placard;
+        }
+
         private PointCollection getwoodpoints()
         {
             PointCollection woodpoints = new PointCollection();
@@ -393,18 +505,36 @@ namespace Topic01
             MeshGeometry3D piramideMesh = MPiramide();
             piramide.Geometry = piramideMesh;
 
-            piramide.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+            piramide.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));            
+
+            GeometryModel3D baseCube = new GeometryModel3D();
+            MeshGeometry3D baseCubeMesh = MBaseCube();
+            baseCube.Geometry = baseCubeMesh;
+
+            baseCube.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+
+            GeometryModel3D placard = new GeometryModel3D();
+            MeshGeometry3D placardMesh = MPlacard();
+            placard.Geometry = placardMesh;
+
+            placard.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
             // Make the surface's material using an image brush.
             ImageBrush colors_brush = new ImageBrush();
             colors_brush.ImageSource = new BitmapImage(new Uri("wood.jpg", UriKind.Relative));
             DiffuseMaterial colors_material = new DiffuseMaterial(colors_brush);
 
+            ImageBrush colors_brush_bronze = new ImageBrush();
+            colors_brush_bronze.ImageSource = new BitmapImage(new Uri("bronze.jpg", UriKind.Relative));
+            DiffuseMaterial colors_material_bronze = new DiffuseMaterial(colors_brush_bronze);
+
             Cube1.Material = colors_material;
             stairs1.Material = colors_material;
             headStone.Material = colors_material;
             pillar.Material = colors_material;
             piramide.Material = colors_material;
+            baseCube.Material = colors_material;
+            placard.Material = colors_material_bronze;
             Cube1.BackMaterial = colors_material;
             stairs1.BackMaterial = colors_material;
             headStone.BackMaterial = colors_material;
@@ -433,6 +563,8 @@ namespace Topic01
             modelGroup.Children.Add(headStone);
             modelGroup.Children.Add(pillar);
             modelGroup.Children.Add(piramide);
+            modelGroup.Children.Add(baseCube);
+            modelGroup.Children.Add(placard);
             modelGroup.Children.Add(DirLight1);
             ModelVisual3D modelsVisual = new ModelVisual3D();
             modelsVisual.Content = modelGroup;
@@ -504,6 +636,7 @@ namespace Topic01
 
         private Point3D PositionCamera(double CameraP, double CameraT)
         {
+            CameraR = 40;
             CameraPhi = CameraP;
             CameraTheta = CameraT;
             // Calculate the camera's position in Cartesian coordinates.
