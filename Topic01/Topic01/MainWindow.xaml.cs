@@ -482,6 +482,7 @@ namespace Topic01
             Cube1.Geometry = cubeMesh;
 
             Cube1.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+            Cube1.BackMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
             GeometryModel3D stairs1 =new GeometryModel3D();
             MeshGeometry3D stairMesh = MStairs(10);
@@ -517,15 +518,15 @@ namespace Topic01
             MeshGeometry3D placardMesh = MPlacard();
             placard.Geometry = placardMesh;
 
-            placard.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+            placard.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Brown));
 
             // Make the surface's material using an image brush.
-            ImageBrush colors_brush = new ImageBrush();
-            colors_brush.ImageSource = new BitmapImage(new Uri("wood.jpg", UriKind.Relative));
+            /*ImageBrush colors_brush = new ImageBrush();
+            colors_brush.ImageSource = new BitmapImage(new Uri("../images/wood.jpg", UriKind.Relative));
             DiffuseMaterial colors_material = new DiffuseMaterial(colors_brush);
 
             ImageBrush colors_brush_bronze = new ImageBrush();
-            colors_brush_bronze.ImageSource = new BitmapImage(new Uri("bronze.jpg", UriKind.Relative));
+            colors_brush_bronze.ImageSource = new BitmapImage(new Uri("E:\\School\\C#tech\\1617GPVandeKerckhoveFlor\\Topic01\\Topic01\\bronze.jpg", UriKind.Relative));
             DiffuseMaterial colors_material_bronze = new DiffuseMaterial(colors_brush_bronze);
 
             Cube1.Material = colors_material;
@@ -539,7 +540,7 @@ namespace Topic01
             stairs1.BackMaterial = colors_material;
             headStone.BackMaterial = colors_material;
             pillar.BackMaterial = colors_material;
-            piramide.BackMaterial = colors_material;
+            piramide.BackMaterial = colors_material;*/
 
             DirectionalLight DirLight1 = new DirectionalLight();
             DirLight1.Color = Colors.White;
