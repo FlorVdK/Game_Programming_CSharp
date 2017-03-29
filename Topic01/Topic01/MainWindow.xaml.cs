@@ -35,11 +35,14 @@ namespace Topic01
         public static double headStoneTop = cubeBaseWidth + headStoneHeigth;
         public static double pillarBottomWidth = 4 * cubeBaseWidth / 6;
         public static double pillarTopWidth = headStoneWidth/4;
-        public static double pillarHeigth = cubeBaseWidth * 6;
+        public static double pillarHeigth = cubeBaseWidth * 8;
         public static double pillarTop = headStoneTop + pillarHeigth;
         public static double piramideBottomWidth = pillarTopWidth;
         public static double piramideHeight = piramideBottomWidth;
         public static double piramideTop = pillarTop + piramideHeight;
+        Storyboard RotCube;
+        PerspectiveCamera Camera1;
+        double CameraR, CameraPhi, CameraTheta; 
 
         MeshGeometry3D MCube()
         {
@@ -410,7 +413,7 @@ namespace Topic01
             DirLight1.Color = Colors.White;
             DirLight1.Direction = new Vector3D(-1, -1, -1);
 
-            PerspectiveCamera Camera1 =new PerspectiveCamera();
+            Camera1 =new PerspectiveCamera();
             Camera1.FarPlaneDistance = 60;
             Camera1.NearPlaneDistance = 1;
             Camera1.FieldOfView = 60;
@@ -461,11 +464,50 @@ namespace Topic01
             NameScope.SetNameScope(Canvas1,new NameScope());
             Canvas1.RegisterName("cubeaxis", axis);
             Storyboard.SetTargetName(RotAngle,"cubeaxis");
-            Storyboard.SetTargetProperty(RotAngle,
-             new PropertyPath(AxisAngleRotation3D.AngleProperty));
-            Storyboard RotCube = new Storyboard();
+            Storyboard.SetTargetProperty(RotAngle,new PropertyPath(AxisAngleRotation3D.AngleProperty));
+            RotCube = new Storyboard();
             RotCube.Children.Add(RotAngle);
-            RotCube.Begin(Canvas1);
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            if(button.Content.Equals("start"))
+            {
+                button.Content = "stop";
+                RotCube.Begin(Canvas1);
+            }
+            else if(button.Content.Equals("stop"))
+            {
+                button.Content = "start";
+                RotCube.Pause(Canvas1);
+                Console.WriteLine("pause");
+            }
+        }
+
+        private void buttonCamera_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PositionCamera(double CameraP, double CameraT)
+        {
+            CameraPhi = CameraP;
+            CameraTheta = CameraT;
+            // Calculate the camera's position in Cartesian coordinates.
+            double y = CameraR * Math.Sin(CameraPhi);
+            double hyp = CameraR * Math.Cos(CameraPhi);
+            double x = hyp * Math.Cos(CameraTheta);
+            double z = hyp * Math.Sin(CameraTheta);
+            Camera1.Position = new Point3D(x, y, z);
+
+            // Look toward the origin.
+            Camera1.LookDirection = new Vector3D(-x, -y, -z);
+
+            // Set the Up direction.
+            Camera1.UpDirection = new Vector3D(0, 1, 0);
+
+            Console.WriteLine("Camera.Position: (" + x + ", " + y + ", " + z + ")");
+            ;
         }
     }
 }
