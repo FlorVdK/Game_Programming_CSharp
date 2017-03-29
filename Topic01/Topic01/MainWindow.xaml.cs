@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,6 +44,7 @@ namespace Topic01
         Storyboard RotCube;
         PerspectiveCamera Camera1;
         double CameraR, CameraPhi, CameraTheta; 
+
 
         MeshGeometry3D MCube()
         {
@@ -417,11 +419,12 @@ namespace Topic01
             Camera1.FarPlaneDistance = 60;
             Camera1.NearPlaneDistance = 1;
             Camera1.FieldOfView = 60;
-            Camera1.Position = new Point3D(24, 20, 32);
+            Camera1.Position = new Point3D(0, piramideTop / 2, 40);
             Camera1.LookDirection =
-                              new Vector3D(-8, -2, -12);
+                              new Vector3D(0, 0, -1);
             Camera1.UpDirection =
                                  new Vector3D(0, 1, 0);
+            Console.WriteLine(Camera1.Position + "test");
 
             Model3DGroup modelGroup =
                                     new Model3DGroup();
@@ -431,8 +434,7 @@ namespace Topic01
             modelGroup.Children.Add(pillar);
             modelGroup.Children.Add(piramide);
             modelGroup.Children.Add(DirLight1);
-            ModelVisual3D modelsVisual =
-                                   new ModelVisual3D();
+            ModelVisual3D modelsVisual = new ModelVisual3D();
             modelsVisual.Content = modelGroup;
 
             Viewport3D myViewport = new Viewport3D();
@@ -451,11 +453,12 @@ namespace Topic01
 
             AxisAngleRotation3D axis = new AxisAngleRotation3D(new Vector3D(0, 1, 0), 0);
             RotateTransform3D Rotate = new RotateTransform3D(axis);
-            Cube1.Transform = Rotate;
+            /*Cube1.Transform = Rotate;
             stairs1.Transform = Rotate;
             headStone.Transform = Rotate;
             pillar.Transform = Rotate;
-            piramide.Transform = Rotate;
+            piramide.Transform = Rotate;*/
+            Camera1.Transform = Rotate;
             DoubleAnimation RotAngle = new DoubleAnimation();
             RotAngle.From = 0;
             RotAngle.To = 360;
@@ -486,10 +489,20 @@ namespace Topic01
 
         private void buttonCamera_Click(object sender, RoutedEventArgs e)
         {
-
+            for (int i = 0; i < 5; i++)
+            {
+                Point3DAnimation cameraAnim = new Point3DAnimation(Camera1.Position, PositionCamera(0,i), new Duration(TimeSpan.FromSeconds(5)));
+                Camera1.BeginAnimation(PerspectiveCamera.PositionProperty, cameraAnim);
+                /*Vector3DAnimation cameraLookAnim = new Vector3DAnimation(new Vector3D(Camera1.LookDirection.X+i, Camera1.LookDirection.Y + i, Camera1.LookDirection.Z + i), new Duration(TimeSpan.FromSeconds(5)));
+                Camera1.BeginAnimation(PerspectiveCamera.LookDirectionProperty, cameraLookAnim);*/
+                Thread.Sleep(1000);
+                Console.WriteLine("position " + Camera1.Position);
+            }
+            Console.WriteLine("look " + Camera1.LookDirection);
+            Console.WriteLine("position " + Camera1.Position);
         }
 
-        private void PositionCamera(double CameraP, double CameraT)
+        private Point3D PositionCamera(double CameraP, double CameraT)
         {
             CameraPhi = CameraP;
             CameraTheta = CameraT;
@@ -498,16 +511,7 @@ namespace Topic01
             double hyp = CameraR * Math.Cos(CameraPhi);
             double x = hyp * Math.Cos(CameraTheta);
             double z = hyp * Math.Sin(CameraTheta);
-            Camera1.Position = new Point3D(x, y, z);
-
-            // Look toward the origin.
-            Camera1.LookDirection = new Vector3D(-x, -y, -z);
-
-            // Set the Up direction.
-            Camera1.UpDirection = new Vector3D(0, 1, 0);
-
-            Console.WriteLine("Camera.Position: (" + x + ", " + y + ", " + z + ")");
-            ;
+            return new Point3D(x, piramideTop/2, z);
         }
     }
 }
