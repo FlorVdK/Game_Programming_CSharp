@@ -481,48 +481,48 @@ namespace Topic01
             MeshGeometry3D cubeMesh = MCube();
             Cube1.Geometry = cubeMesh;
 
-            Cube1.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
-            Cube1.BackMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+            //Cube1.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+            //Cube1.BackMaterial = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
             GeometryModel3D stairs1 =new GeometryModel3D();
             MeshGeometry3D stairMesh = MStairs(10);
             stairs1.Geometry = stairMesh;
 
-            stairs1.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+            //stairs1.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
             GeometryModel3D headStone =new GeometryModel3D();
             MeshGeometry3D headStoneMesh = MHeadstone();
             headStone.Geometry = headStoneMesh;
 
-            headStone.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+            // headStone.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
             GeometryModel3D pillar = new GeometryModel3D();
             MeshGeometry3D pillarMesh = MPillar();
             pillar.Geometry = pillarMesh;
 
-            pillar.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+            //pillar.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
             GeometryModel3D piramide = new GeometryModel3D();
             MeshGeometry3D piramideMesh = MPiramide();
             piramide.Geometry = piramideMesh;
 
-            piramide.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));            
+            //piramide.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));            
 
             GeometryModel3D baseCube = new GeometryModel3D();
             MeshGeometry3D baseCubeMesh = MBaseCube();
             baseCube.Geometry = baseCubeMesh;
 
-            baseCube.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
+            //baseCube.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
             GeometryModel3D placard = new GeometryModel3D();
             MeshGeometry3D placardMesh = MPlacard();
             placard.Geometry = placardMesh;
 
-            placard.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Brown));
+            //placard.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Brown));
 
             // Make the surface's material using an image brush.
-            /*ImageBrush colors_brush = new ImageBrush();
-            colors_brush.ImageSource = new BitmapImage(new Uri("../images/wood.jpg", UriKind.Relative));
+            ImageBrush colors_brush = new ImageBrush();
+            colors_brush.ImageSource = new BitmapImage(new Uri("E:\\School\\C#tech\\1617GPVandeKerckhoveFlor\\Topic01\\Topic01\\wood.jpg", UriKind.Relative));
             DiffuseMaterial colors_material = new DiffuseMaterial(colors_brush);
 
             ImageBrush colors_brush_bronze = new ImageBrush();
@@ -540,7 +540,7 @@ namespace Topic01
             stairs1.BackMaterial = colors_material;
             headStone.BackMaterial = colors_material;
             pillar.BackMaterial = colors_material;
-            piramide.BackMaterial = colors_material;*/
+            piramide.BackMaterial = colors_material;
 
             DirectionalLight DirLight1 = new DirectionalLight();
             DirLight1.Color = Colors.White;
