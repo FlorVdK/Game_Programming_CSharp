@@ -21,20 +21,21 @@ namespace GDI_framework
         Bitmap backBuffer;
         float SchaalX;
         float SchaalY;
+        int centerStraal = 150;
 
         //teams aanmaken
         int numberRobots = 3;
         List<Robot> team1;
         List<Robot> team2;
 
-    // variabelen voor model
+        // variabelen voor model
 
-    Int32 time;                  // in msec
+        Int32 time;                  // in msec
 
         double R;                    // van de cirkel, in m
         double theta;                // in radialen;
         double hoeksnelheid;         // in radialen/sec
-        const double straal = 20.0d; //van de bol, in m
+        const double straal = 40.0d; //van de bol, in m
 
 
 
@@ -70,6 +71,7 @@ namespace GDI_framework
         private void timer_Tick(object sender, EventArgs e)
         {
             DoGame();
+            CheckCollision();
             display.Invalidate(); // force redraw (& paint event);
         }
 
@@ -122,6 +124,29 @@ namespace GDI_framework
         {
             time += timer.Interval;
             theta = hoeksnelheid * time / 1000.0d;
+            foreach( var robot in team1)
+            {
+                robot.x--;
+            }
+            foreach (var robot in team2)
+            {
+                robot.x++;
+            }
+        }
+
+        private void CheckCollision()
+        {
+            foreach(var robot1 in team1)
+            {
+                foreach(var robot2 in team2)
+                {
+                    if( Math.Sqrt( Math.Pow((robot1.x - robot2.x),2) + Math.Pow((robot1.y - robot2.y), 2)) < robot2.straal || Math.Sqrt(Math.Pow((robot1.x - robot2.x), 2) + Math.Pow((robot1.y - robot2.y), 2)) < robot1.straal)
+                    {
+                        robot1.x = robot1.x + 10;
+                        robot2.x = robot2.x - 10;
+                    }
+                }
+            }
         }
 
         #endregion game loop
@@ -158,13 +183,51 @@ namespace GDI_framework
 		/// <param name="output"></param>
         private void Render(Graphics output)
         {
-            screen.Clear(Color.Green);
-
-            // genereer scherminhoud hier
-
-            int centerStraal = 150;
-
             //assen
+            DrawField();
+            
+            // bol
+            double X = R * Math.Cos(theta);
+            double Y = R * Math.Sin(theta);
+            Rectangle boundingBox = new Rectangle(new Point((int)(X - straal), (int)(Y - straal)), new Size((int)(3 * straal), (int)(2 * straal)));
+            screen.DrawEllipse(new Pen(Color.GreenYellow), boundingBox);
+
+            DrawBots();
+
+
+            // toon backbuffer op display
+            output.DrawImage(backBuffer, new Rectangle(0, 0, display.Width, display.Height), new Rectangle(0, 0, display.Width, display.Height), GraphicsUnit.Pixel);
+
+            // display textboxes
+            tijdBox.Text = String.Format("{0:F}", time / 1000.0d);
+            thetaBox.Text = String.Format("{0:F}", theta);
+
+
+        }
+
+        private void DrawBots()
+        {
+            List<Rectangle> boxes = new List<Rectangle>();
+            foreach (var rb in team1)
+            {
+                Rectangle box = new Rectangle(new Point((int)(rb.x), (int)(rb.y)), new Size((int)(rb.straal), (int)(rb.straal)));
+                boxes.Add(box);
+            }
+            foreach (var rb in team2)
+            {
+                Rectangle box = new Rectangle(new Point((int)(rb.x), (int)(rb.y)), new Size((int)(rb.straal), (int)(rb.straal)));
+                boxes.Add(box);
+            }
+            foreach (var box in boxes)
+            {
+                screen.DrawEllipse(new Pen(Color.GreenYellow), box);
+            }
+        }
+
+        private void DrawField()
+        {
+            Console.Write(display.Width + " " + display.Height);
+            screen.Clear(Color.Green);
             screen.DrawLine(new Pen(Color.White), new Point(-450, 300), new Point(450, 300));
             screen.DrawLine(new Pen(Color.White), new Point(-450, -300), new Point(450, -300));
             screen.DrawLine(new Pen(Color.White), new Point(-450, -300), new Point(-450, 300));
@@ -176,42 +239,7 @@ namespace GDI_framework
             screen.DrawLine(new Pen(Color.White), new Point(-475, -100), new Point(-450, -100));
             screen.DrawLine(new Pen(Color.White), new Point(-475, -100), new Point(-475, 100));
             screen.DrawLine(new Pen(Color.White), new Point(-475, 100), new Point(-450, 100));
-
-
             screen.DrawEllipse(new Pen(Color.White), new Rectangle(new Point((int)(-centerStraal / 2), (int)(-centerStraal / 2)), new Size((int)(centerStraal), (int)(centerStraal))));
-
-            // bol
-            double X = R * Math.Cos(theta);
-            double Y = R * Math.Sin(theta);
-
-            Rectangle boundingBox = new Rectangle(new Point((int)(X - straal), (int)(Y - straal)), new Size((int)(3 * straal), (int)(2 * straal)));
-            screen.DrawEllipse(new Pen(Color.GreenYellow), boundingBox);
-
-            List<Rectangle> boxes = new List<Rectangle>();
-            foreach( var rb in team1)
-            {
-                Rectangle box = new Rectangle(new Point((int)(rb.x), (int)(rb.y)), new Size((int)(rb.straal), (int)(rb.straal)));
-                boxes.Add(box);
-            }
-            foreach (var rb in team2)
-            {
-                Rectangle box = new Rectangle(new Point((int)(rb.x), (int)(rb.y)), new Size((int)(rb.straal), (int)(rb.straal)));
-                boxes.Add(box);
-            }
-            foreach(var box in boxes)
-            {
-                screen.DrawEllipse(new Pen(Color.GreenYellow), box);
-            }
-
-
-            // toon backbuffer op display
-            output.DrawImage(backBuffer, new Rectangle(0, 0, display.Width, display.Height), new Rectangle(0, 0, display.Width, display.Height), GraphicsUnit.Pixel);
-
-            // display textboxes
-            tijdBox.Text = String.Format("{0:F}", time / 1000.0d);
-            thetaBox.Text = String.Format("{0:F}", theta);
-
-            
         }
 
 
