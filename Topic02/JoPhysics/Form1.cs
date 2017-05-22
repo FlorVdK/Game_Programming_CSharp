@@ -91,14 +91,25 @@ namespace GDI_framework
             timer.Enabled = false;
         }
 
-		#endregion interactie
+        private void button1_Click(object sender, EventArgs e)
+        {
+            stopButton.Enabled = false;
+            startButton.Enabled = true;		//aanmaken inhoud form
+            InitRenderer();             //aanmaken backbuffer 
+            InitGame();					//Beginwaarden van de simulatie instellen
+            InitTimer();
+            timer.Enabled = false;
+
+        }
+
+        #endregion interactie
 
 
-		#region game loop
+        #region game loop
 
-		/// <summary>
-		/// Beginwaarden van de simulatie instellen
-		/// </summary>
+        /// <summary>
+        /// Beginwaarden van de simulatie instellen
+        /// </summary>
         private void InitGame()
         {
             R = 300.0d;
@@ -110,10 +121,8 @@ namespace GDI_framework
             Random rnd = new Random();
             for (int i = 0; i < numberRobots; i++)
             {
-                //team1.Add(new Robot(rnd.Next(0 + (int) straal, display.Width / 2 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height/2 - (int)straal), straal));
-                //team2.Add(new Robot(rnd.Next(-display.Width / 2 + (int)straal, 0 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height/2 - (int)straal), straal));
-                team1.Add(new Robot(rnd.Next(0 + (int) straal, display.Width / 2 - (int)straal), 0, straal));
-                team2.Add(new Robot(rnd.Next(-display.Width / 2 + (int)straal, 0 - (int)straal), 0, straal));
+                team1.Add(new Robot(rnd.Next(0 + (int) straal, display.Width / 2 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height/2 - (int)straal), straal));
+                team2.Add(new Robot(rnd.Next(-display.Width / 2 + (int)straal, 0 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height/2 - (int)straal), straal));
             }
             bal = new Bal(-(int)balstraal/2, -(int)balstraal / 2, (int)balstraal);
         }
@@ -208,7 +217,6 @@ namespace GDI_framework
             DrawField();
             DrawBotsAndBal();
 
-
             // toon backbuffer op display
             output.DrawImage(backBuffer, new Rectangle(0, 0, display.Width, display.Height), new Rectangle(0, 0, display.Width, display.Height), GraphicsUnit.Pixel);
 
@@ -232,6 +240,7 @@ namespace GDI_framework
             {
                 Rectangle box = new Rectangle(new Point((int)(rb.x), (int)(rb.y)), new Size((int)(rb.straal), (int)(rb.straal)));
                 screen.FillEllipse(new SolidBrush(Color.Blue), box);
+                screen.DrawLine(new Pen(Color.Black), new Point(rb.x, (int)(rb.y + straal / 2)), new Point((int)(rb.x + rb.straal / 2), (int)(rb.y + straal / 2)));
             }            
             screen.FillEllipse(new SolidBrush(Color.Black), new Rectangle(new Point((int)(bal.x), (int)(bal.y)), new Size((int)(bal.straal), (int)(bal.straal))));
         }

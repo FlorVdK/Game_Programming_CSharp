@@ -14,6 +14,7 @@ namespace JoPhysics
         public double speed { get; set; }
         public double maxspeed { get; set; }
         public double acceleration { get; set; }
+        public double direction { get; set; }
 
         public Robot()
         {
