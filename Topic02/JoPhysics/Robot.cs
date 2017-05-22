@@ -30,5 +30,16 @@ namespace JoPhysics
             maxspeed = 4;
             acceleration = 0.1;
         }
+
+        public Robot(int x, int y, double straal, double direction)
+        {
+            this.x = x;
+            this.y = y;
+            this.straal = straal;
+            this.direction = direction;
+            speed = 0;
+            maxspeed = 4;
+            acceleration = 0.1;
+        }
     }
 }

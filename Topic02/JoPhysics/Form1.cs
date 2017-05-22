@@ -119,12 +119,12 @@ namespace GDI_framework
             team1 = new List<Robot>();
             team2 = new List<Robot>();
             Random rnd = new Random();
+            bal = new Bal(-(int)balstraal / 2, -(int)balstraal / 2, (int)balstraal);
             for (int i = 0; i < numberRobots; i++)
             {
                 team1.Add(new Robot(rnd.Next(0 + (int) straal, display.Width / 2 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height/2 - (int)straal), straal));
                 team2.Add(new Robot(rnd.Next(-display.Width / 2 + (int)straal, 0 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height/2 - (int)straal), straal));
             }
-            bal = new Bal(-(int)balstraal/2, -(int)balstraal / 2, (int)balstraal);
         }
 
 
@@ -134,13 +134,13 @@ namespace GDI_framework
         private void DoGame()
         {
             time += timer.Interval;
-            theta = hoeksnelheid * time / 1000.0d;
             foreach( var robot in team1)
             {
+                theta = (robot.y - bal.y) / (robot.x - bal.x);
+                Console.WriteLine(theta);
                 if (robot.speed < robot.maxspeed)
                 {
                     robot.speed += robot.acceleration;
-                    Console.WriteLine(robot.speed);
                 }
                 robot.x -= (int) robot.speed;
             }
@@ -149,7 +149,6 @@ namespace GDI_framework
                 if (robot.speed < robot.maxspeed)
                 {
                     robot.speed += robot.acceleration;
-                    Console.WriteLine(robot.speed);
                 }
                 robot.x += (int)robot.speed;
             }
