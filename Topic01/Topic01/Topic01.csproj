@@ -106,14 +106,14 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\wood.jpg">
+    <Content Include="Images\wood.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\bronze.jpg">
+    <Content Include="Images\bronze.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

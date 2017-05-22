@@ -172,175 +172,8 @@ namespace Topic01
             stairs.TextureCoordinates = woodpoints;
 
             return stairs;
-        }
-
-        MeshGeometry3D MHeadstone()
-        {
-            MeshGeometry3D headStone = new MeshGeometry3D();
-            Point3DCollection corners = new Point3DCollection();
-
-            corners.Add(new Point3D(headStoneWidth, headStoneTop, headStoneWidth));
-            corners.Add(new Point3D(-headStoneWidth, headStoneTop, headStoneWidth));
-            corners.Add(new Point3D(-cubeBaseWidth , cubeBaseTop, cubeBaseWidth));
-            corners.Add(new Point3D(cubeBaseWidth , cubeBaseTop, cubeBaseWidth ));
-            corners.Add(new Point3D(headStoneWidth, headStoneTop, -headStoneWidth));
-            corners.Add(new Point3D(-headStoneWidth, headStoneTop, -headStoneWidth));
-            corners.Add(new Point3D(-cubeBaseWidth , cubeBaseTop, -cubeBaseWidth ));
-            corners.Add(new Point3D(cubeBaseWidth , cubeBaseTop, -cubeBaseWidth ));
-            Console.WriteLine(cubeBaseWidth + headStoneHeigth);
-
-            headStone.Positions = corners;
-
-            Int32[] indices ={
-            //front
-                0,1,2,
-                0,2,3,
-            //back
-               4,7,6,
-                4,6,5,
-              //Right
-                4,0,3,
-                4,3,7,
-              //Left
-                1,5,6,
-                 1,6,2,
-              //Top
-                 1,0,4,
-                 1,4,5,
-              //Bottom
-                 2,6,7,
-                 2,7,3
-              };
-
-            Int32Collection Triangles = new Int32Collection();
-
-            foreach (Int32 index in indices)
-            {
-                Triangles.Add(index);
-            }
-
-            headStone.TriangleIndices = Triangles;
-
-            //adding TextureCoordinates
-
-            PointCollection woodpoints = new PointCollection();
-            woodpoints = getwoodpoints();
-            headStone.TextureCoordinates = woodpoints;
-
-            return headStone;
-        }
-
-        MeshGeometry3D MBaseCube()
-        {
-            MeshGeometry3D baseCube = new MeshGeometry3D();
-            Point3DCollection corners = new Point3DCollection();
-
-            corners.Add(new Point3D(headStoneWidth - 0.5, baseCubeHeight, headStoneWidth - 0.5));
-            corners.Add(new Point3D(-headStoneWidth + 0.5, baseCubeHeight, headStoneWidth - 0.5));
-            corners.Add(new Point3D(-headStoneWidth, baseCubeBase, headStoneWidth));
-            corners.Add(new Point3D(headStoneWidth, baseCubeBase, headStoneWidth));
-            corners.Add(new Point3D(headStoneWidth - 0.5, baseCubeHeight, -headStoneWidth + 0.5));
-            corners.Add(new Point3D(-headStoneWidth + 0.5, baseCubeHeight, -headStoneWidth + 0.5));
-            corners.Add(new Point3D(-headStoneWidth, baseCubeBase, -headStoneWidth));
-            corners.Add(new Point3D(headStoneWidth, baseCubeBase, -headStoneWidth));
-            Console.WriteLine(cubeBaseWidth + headStoneHeigth);
-
-            baseCube.Positions = corners;
-
-            Int32[] indices ={
-            //front
-                0,1,2,
-                0,2,3,
-            //back
-               4,7,6,
-                4,6,5,
-              //Right
-                4,0,3,
-                4,3,7,
-              //Left
-                1,5,6,
-                 1,6,2,
-              //Top
-                 1,0,4,
-                 1,4,5,
-              //Bottom
-                 2,6,7,
-                 2,7,3
-              };
-
-            Int32Collection Triangles = new Int32Collection();
-
-            foreach (Int32 index in indices)
-            {
-                Triangles.Add(index);
-            }
-
-            baseCube.TriangleIndices = Triangles;
-
-            //adding TextureCoordinates
-
-            PointCollection woodpoints = new PointCollection();
-            woodpoints = getwoodpoints();
-            baseCube.TextureCoordinates = woodpoints;
-
-            return baseCube;
-        }
-
-        MeshGeometry3D MPillar()
-        {
-            MeshGeometry3D pillar = new MeshGeometry3D();
-            Point3DCollection corners = new Point3DCollection();
-
-            corners.Add(new Point3D(pillarTopWidth, pillarTop, pillarTopWidth));
-            corners.Add(new Point3D(-pillarTopWidth, pillarTop, pillarTopWidth));
-            corners.Add(new Point3D(-pillarBottomWidth, headStoneTop, pillarBottomWidth));
-            corners.Add(new Point3D(pillarBottomWidth, headStoneTop, pillarBottomWidth));
-            corners.Add(new Point3D(pillarTopWidth, pillarTop, -pillarTopWidth));
-            corners.Add(new Point3D(-pillarTopWidth, pillarTop, -pillarTopWidth));
-            corners.Add(new Point3D(-pillarBottomWidth, headStoneTop, -pillarBottomWidth));
-            corners.Add(new Point3D(pillarBottomWidth, headStoneTop, -pillarBottomWidth));
-            Console.WriteLine(cubeBaseWidth + headStoneHeigth);
-
-            pillar.Positions = corners;
-
-            Int32[] indices ={
-            //front
-                0,1,2,
-                0,2,3,
-            //back
-               4,7,6,
-                4,6,5,
-              //Right
-                4,0,3,
-                4,3,7,
-              //Left
-                1,5,6,
-                 1,6,2,
-              //Top
-                 1,0,4,
-                 1,4,5,
-              //Bottom
-                 2,6,7,
-                 2,7,3
-              };
-
-            Int32Collection Triangles = new Int32Collection();
-
-            foreach (Int32 index in indices)
-            {
-                Triangles.Add(index);
-            }
-
-            pillar.TriangleIndices = Triangles;
-
-            //adding TextureCoordinates
-
-            PointCollection woodpoints = new PointCollection();
-            woodpoints = getwoodpoints();
-            pillar.TextureCoordinates = woodpoints;
-
-            return pillar;
-        }
+        }         
+        
 
         MeshGeometry3D MPiramide()
         {
@@ -474,6 +307,62 @@ namespace Topic01
 
         }
 
+        MeshGeometry3D MCube2(double top, double topWidth, double bottom, double bottomWith)
+        {
+            MeshGeometry3D pillar = new MeshGeometry3D();
+            Point3DCollection corners = new Point3DCollection();
+
+            corners.Add(new Point3D(topWidth, top, topWidth));
+            corners.Add(new Point3D(-topWidth, top, topWidth));
+            corners.Add(new Point3D(-bottomWith, bottom, bottomWith));
+            corners.Add(new Point3D(bottomWith, bottom, bottomWith));
+            corners.Add(new Point3D(topWidth, top, -topWidth));
+            corners.Add(new Point3D(-topWidth, top, -topWidth));
+            corners.Add(new Point3D(-bottomWith, bottom, -bottomWith));
+            corners.Add(new Point3D(bottomWith, bottom, -bottomWith));
+            Console.WriteLine(cubeBaseWidth + headStoneHeigth);
+
+            pillar.Positions = corners;
+
+            Int32[] indices ={
+            //front
+                0,1,2,
+                0,2,3,
+            //back
+               4,7,6,
+                4,6,5,
+              //Right
+                4,0,3,
+                4,3,7,
+              //Left
+                1,5,6,
+                 1,6,2,
+              //Top
+                 1,0,4,
+                 1,4,5,
+              //Bottom
+                 2,6,7,
+                 2,7,3
+              };
+
+            Int32Collection Triangles = new Int32Collection();
+
+            foreach (Int32 index in indices)
+            {
+                Triangles.Add(index);
+            }
+
+            pillar.TriangleIndices = Triangles;
+
+            //adding TextureCoordinates
+
+            PointCollection woodpoints = new PointCollection();
+            woodpoints = getwoodpoints();
+            pillar.TextureCoordinates = woodpoints;
+
+            return pillar;
+        }
+
         private void Window_Loaded(object sender,
                                   RoutedEventArgs e)
         {
@@ -491,13 +380,13 @@ namespace Topic01
             //stairs1.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
             GeometryModel3D headStone =new GeometryModel3D();
-            MeshGeometry3D headStoneMesh = MHeadstone();
+            MeshGeometry3D headStoneMesh = MCube2(headStoneTop, headStoneWidth, cubeBaseTop, cubeBaseWidth);
             headStone.Geometry = headStoneMesh;
 
             // headStone.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
 
             GeometryModel3D pillar = new GeometryModel3D();
-            MeshGeometry3D pillarMesh = MPillar();
+            MeshGeometry3D pillarMesh = MCube2(pillarTop, pillarTopWidth, headStoneTop, pillarBottomWidth);
             pillar.Geometry = pillarMesh;
 
             //pillar.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
@@ -509,7 +398,7 @@ namespace Topic01
             //piramide.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));            
 
             GeometryModel3D baseCube = new GeometryModel3D();
-            MeshGeometry3D baseCubeMesh = MBaseCube();
+            MeshGeometry3D baseCubeMesh = MCube2(baseCubeHeight, headStoneWidth, baseCubeBase, headStoneWidth + 0.5);
             baseCube.Geometry = baseCubeMesh;
 
             //baseCube.Material = new DiffuseMaterial(new SolidColorBrush(Colors.Azure));
@@ -522,11 +411,11 @@ namespace Topic01
 
             // Make the surface's material using an image brush.
             ImageBrush colors_brush = new ImageBrush();
-            colors_brush.ImageSource = new BitmapImage(new Uri("E:\\School\\C#tech\\1617GPVandeKerckhoveFlor\\Topic01\\Topic01\\wood.jpg", UriKind.Relative));
+            colors_brush.ImageSource = new BitmapImage(new Uri(@"Images/wood.jpg", UriKind.Relative));
             DiffuseMaterial colors_material = new DiffuseMaterial(colors_brush);
 
             ImageBrush colors_brush_bronze = new ImageBrush();
-            colors_brush_bronze.ImageSource = new BitmapImage(new Uri("E:\\School\\C#tech\\1617GPVandeKerckhoveFlor\\Topic01\\Topic01\\bronze.jpg", UriKind.Relative));
+            colors_brush_bronze.ImageSource = new BitmapImage(new Uri(@"Images/bronze.jpg", UriKind.Relative));
             DiffuseMaterial colors_material_bronze = new DiffuseMaterial(colors_brush_bronze);
 
             Cube1.Material = colors_material;
@@ -609,14 +498,18 @@ namespace Topic01
         {
             if(button.Content.Equals("start"))
             {
-                button.Content = "stop";
-                RotCube.Begin(Canvas1);
+                button.Content = "pause";
+                RotCube.Begin(Canvas1,true);
             }
-            else if(button.Content.Equals("stop"))
+            else if (button.Content.Equals("pause"))
             {
-                button.Content = "start";
+                button.Content = "resume";
                 RotCube.Pause(Canvas1);
-                Console.WriteLine("pause");
+            }
+            else if (button.Content.Equals("resume"))
+            {
+                button.Content = "pause";
+                RotCube.Resume(Canvas1);
             }
         }
 

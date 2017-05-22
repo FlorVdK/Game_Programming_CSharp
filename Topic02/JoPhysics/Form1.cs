@@ -156,8 +156,8 @@ namespace GDI_framework
                     if( Math.Sqrt( Math.Pow((robot1.x - robot2.x),2) + Math.Pow((robot1.y - robot2.y), 2)) < robot2.straal || Math.Sqrt(Math.Pow((robot1.x - robot2.x), 2) + Math.Pow((robot1.y - robot2.y), 2)) < robot1.straal)
                     {
                         Console.WriteLine("col");
-                        robot1.speed = robot2.speed;
-                        robot2.speed = robot1.speed;
+                        robot1.speed = -robot2.speed;
+                        robot2.speed = -robot1.speed;
                     }
                 }
             }
@@ -226,6 +226,7 @@ namespace GDI_framework
             {
                 Rectangle box = new Rectangle(new Point((int)(rb.x), (int)(rb.y)), new Size((int)(rb.straal), (int)(rb.straal)));
                 screen.FillEllipse(new SolidBrush(Color.Red), box);
+                screen.DrawLine(new Pen(Color.Black), new Point(rb.x, (int)(rb.y + straal/2)), new Point((int)(rb.x + rb.straal/2), (int)(rb.y + straal / 2)));
             }
             foreach (var rb in team2)
             {
