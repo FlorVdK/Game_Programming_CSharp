@@ -16,6 +16,7 @@ namespace GDI_framework
         int[] Score = new int[2] { 0, 0 };
         bool team1Bal;
         bool team2Bal;
+        List<System.Drawing.Point[]> rrtList;
 
         // Globale variabelen voor GDI+
         Graphics screen;
@@ -29,6 +30,7 @@ namespace GDI_framework
         List<Robot> team1;
         List<Robot> team2;
         Bal bal;
+        int id;
 
         // variabelen voor model
 
@@ -40,6 +42,7 @@ namespace GDI_framework
 
         public Form1(int id)
         {
+            this.id = id;
             InitializeComponent();		//aanmaken inhoud form
             InitRenderer();				//aanmaken backbuffer 
             if (id == 0)
@@ -76,7 +79,14 @@ namespace GDI_framework
 		/// <param name="e"></param>
         private void timer_Tick(object sender, EventArgs e)
         {
-            DoGame();
+            if (id==0)
+            {
+                DoGame();
+            }
+            else if (id==1)
+            {
+                DoRRT();
+            }
             display.Invalidate(); // force redraw (& paint event);
         }
 
@@ -194,6 +204,11 @@ namespace GDI_framework
             SetDirection();
             time += timer.Interval;
             ChangeSpeed();
+            SetBall();
+        }
+
+        private void SetBall()
+        {
             foreach (var robot in team1)
             {
                 if (robot.hasBall)
@@ -344,6 +359,11 @@ namespace GDI_framework
                  team2.Add(new Robot(rnd.Next(-display.Width / 2 + (int)straal, 0 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height / 2 - (int)straal), straal));
             }
             team1.Add(new Robot(rnd.Next(0 + (int)straal, display.Width / 2 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height / 2 - (int)straal), straal));
+            rrtList = new List<System.Drawing.Point[]>();
+        }
+
+        private void DoRRT()
+        {
             
         }
 
