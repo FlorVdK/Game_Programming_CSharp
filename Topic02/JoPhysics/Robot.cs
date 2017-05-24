@@ -15,22 +15,8 @@ namespace JoPhysics
         public double speed { get; set; }
         public double maxspeed { get; set; }
         public double acceleration { get; set; }
-        public Vector direction
-        {
-            get
-            {
-                return this.Direction;
-            }
-            set
-            {
-                Vector v = value;
-                v.Normalize();
-                Vector.Multiply(v, straal);
-                Direction = v;
-            }
-        }
-
-        private Vector Direction;
+        public Vector direction { get; set; }
+        public bool hasBall { get; set; }
 
         public Robot()
         {

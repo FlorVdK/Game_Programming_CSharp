@@ -2,17 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace GDI_framework
 {
     public partial class Form1 : Form
     {
         // Timing
+        #region Variables
 
         Timer timer;
         int[] Score = new int[2] { 0, 0 };
+        bool team1Bal;
+        bool team2Bal;
 
         // Globale variabelen voor GDI+
         Graphics screen;
@@ -22,7 +25,7 @@ namespace GDI_framework
         int centerStraal = 150;
 
         //teams aanmaken
-        int numberRobots = 1;
+        int numberRobots = 2;
         List<Robot> team1;
         List<Robot> team2;
         Bal bal;
@@ -30,21 +33,23 @@ namespace GDI_framework
         // variabelen voor model
 
         Int32 time;                  // in msec
-
-        double R;                    // van de cirkel, in m
-        double theta;                // in radialen;
-        double hoeksnelheid;         // in radialen/sec
         const double straal = 30.0d; //van de bol, in m
         const double balstraal = 15.0d; //van de bol, in m
-        double rico;
 
+        #endregion Variables
 
-
-        public Form1()
+        public Form1(int id)
         {
             InitializeComponent();		//aanmaken inhoud form
             InitRenderer();				//aanmaken backbuffer 
-			InitGame();					//Beginwaarden van de simulatie instellen
+            if (id == 0)
+            {
+                InitGame();
+            }    //Beginwaarden van de simulatie instellen
+            else
+            {
+                initRRT();
+            }
             InitTimer();
             startButton.Enabled = true;
         }
@@ -72,7 +77,6 @@ namespace GDI_framework
         private void timer_Tick(object sender, EventArgs e)
         {
             DoGame();
-            CheckCollision();
             display.Invalidate(); // force redraw (& paint event);
         }
 
@@ -100,8 +104,6 @@ namespace GDI_framework
 
         private void restart()
         {
-            stopButton.Enabled = false;
-            startButton.Enabled = true;		//aanmaken inhoud form
             InitRenderer();             //aanmaken backbuffer 
             InitGame();					//Beginwaarden van de simulatie instellen
             InitTimer();
@@ -120,6 +122,8 @@ namespace GDI_framework
             time = 0;
             team1 = new List<Robot>();
             team2 = new List<Robot>();
+            team1Bal = false;
+            team2Bal = false;
             Random rnd = new Random();
             bal = new Bal(-(int)balstraal / 2, -(int)balstraal / 2, (int)balstraal);
             for (int i = 0; i < numberRobots; i++)
@@ -132,15 +136,37 @@ namespace GDI_framework
 
         private void SetDirection()
         {
-            foreach (var robot in team1)
+            if (team1Bal)
             {
-                Vector v = new Vector(robot.y + robot.straal / 2 - bal.y + bal.straal / 2, robot.x + robot.straal / 2 - bal.x + bal.straal / 2);
-                robot.direction = v;
+                foreach (var robot in team1)
+                {
+                    Vector v = new Vector(robot.x + robot.straal / 2 - (-460), robot.y + robot.straal / 2);
+                    robot.direction = v;
+                }
             }
-            foreach (var robot in team2)
+            else
             {
-                Vector v = new Vector(bal.y + bal.straal / 2 - robot.y + robot.straal / 2, bal.x + bal.straal / 2 - robot.x + robot.straal / 2);
-                robot.direction = v;
+                foreach (var robot in team1)
+                {
+                    Vector v = new Vector(robot.x + robot.straal / 2 - (bal.x + bal.straal / 2), robot.y + robot.straal / 2 - (bal.y + bal.straal / 2));
+                    robot.direction = v;
+                }
+            }
+            if (team2Bal)
+            {
+                foreach (var robot in team2)
+                {
+                    Vector v = new Vector(robot.x + robot.straal / 2 - 460, robot.y + robot.straal / 2);
+                    robot.direction = v;
+                }
+            }
+            else
+            {
+                foreach (var robot in team2)
+                {
+                    Vector v = new Vector(robot.x + robot.straal / 2 - (bal.x + bal.straal / 2), robot.y + robot.straal / 2 - (bal.y + bal.straal / 2));
+                    robot.direction = v;
+                }
             }
         }
 
@@ -150,50 +176,51 @@ namespace GDI_framework
         /// </summary>
         private void DoGame()
         {
+            CheckCollision();
             switch (BalPosition())
             {
                 case 0: break;
-                case 1:Goal(1);
+                case 1:
+                    Goal(1);
                     break;
-                case 2:Goal(2);
+                case 2:
+                    Goal(2);
                     break;
                 case 3:
+                    restart();
                     break;
             }
+
             SetDirection();
             time += timer.Interval;
-            foreach( var robot in team1)
+            ChangeSpeed();
+            foreach (var robot in team1)
             {
-                theta = ((double) robot.y - (double)bal.y) / (double)(robot.x - (double)bal.x);
+                if (robot.hasBall)
+                {
+                    bal.x = (int)(robot.x + robot.straal / 4);
+                    bal.y = (int)(robot.y + robot.straal / 4);
+                }
+            }
+            foreach (var robot in team2)
+            {
+                if (robot.hasBall)
+                {
+                    bal.x = (int)(robot.x + robot.straal / 4);
+                    bal.y = (int)(robot.y + robot.straal / 4);
+                }
+            }
+        }
+
+        private void ChangeSpeed()
+        {
+            foreach (var robot in team1)
+            {
                 if (robot.speed < robot.maxspeed)
                 {
-                    robot.speed = 2;
+                    robot.speed += robot.acceleration;
                 }
-                if (robot.x >= 0)
-                {
-                    if (robot.y >= 0)
-                    {
-                        robot.x -= (int)(robot.speed * robot.direction.X);
-                        robot.y -= (int)(robot.speed * robot.direction.Y);
-                    }
-                    else
-                    {
-                        robot.x -= (int)(robot.speed * robot.direction.X);
-                        robot.y += (int)(robot.speed * robot.direction.Y);
-                    }
-                }else
-                {
-                    if (robot.y >= 0)
-                    {
-                        robot.x += (int)(robot.speed * robot.direction.X);
-                        robot.y -= (int)(robot.speed * robot.direction.Y);
-                    }
-                    else
-                    {
-                        robot.x -= (int)(robot.speed * robot.direction.X);
-                        robot.y -= (int)(robot.speed * robot.direction.Y);
-                    }
-                }
+                Move(robot);
             }
             foreach (var robot in team2)
             {
@@ -201,9 +228,14 @@ namespace GDI_framework
                 {
                     robot.speed += robot.acceleration;
                 }
-                robot.x += (int)robot.speed;
+                Move(robot);
             }
-            bal.x += (int)bal.speed;
+        }
+
+        private static void Move(Robot robot)
+        {
+            robot.x -= (int)(robot.speed * robot.direction.X / robot.direction.Length);
+            robot.y -= (int)(robot.speed * robot.direction.Y / robot.direction.Length);
         }
 
         public void Goal(int id)
@@ -245,9 +277,7 @@ namespace GDI_framework
                 {
                     if( Math.Sqrt( Math.Pow((robot1.x - robot2.x),2) + Math.Pow((robot1.y - robot2.y), 2)) < robot2.straal || Math.Sqrt(Math.Pow((robot1.x - robot2.x), 2) + Math.Pow((robot1.y - robot2.y), 2)) < robot1.straal)
                     {
-                        Console.WriteLine("col");
-                        robot1.speed = -robot2.speed;
-                        robot2.speed = -robot1.speed;
+                        DoCollision(robot1, robot2);
                     }
                 }
             }
@@ -255,25 +285,76 @@ namespace GDI_framework
             {
                 if (Math.Sqrt(Math.Pow((bal.x - robot2.x), 2) + Math.Pow((bal.y - robot2.y), 2)) < robot2.straal || Math.Sqrt(Math.Pow((bal.x - robot2.x), 2) + Math.Pow((bal.y - robot2.y), 2)) < bal.straal)
                 {
-                    bal.speed = robot2.speed;
+                    robot2.hasBall = true;
+                    team2Bal = true;
                 }
             }
             foreach (var robot2 in team1)
             {
                 if (Math.Sqrt(Math.Pow((bal.x +bal.straal/2 - (robot2.x + robot2.straal / 2)), 2) + Math.Pow((bal.y + bal.straal / 2 - (robot2.y + robot2.straal / 2)), 2)) < robot2.straal || Math.Sqrt(Math.Pow((bal.x + bal.straal / 2 - (robot2.x + robot2.straal / 2)), 2) + Math.Pow((bal.y + bal.straal / 2 - (robot2.y + robot2.straal / 2)), 2)) < bal.straal)
                 {
-                    bal.speed = robot2.speed;
+                    robot2.hasBall = true;
+                    team1Bal = true;
+                }
+            }
+        }
+
+        private void DoCollision(Robot robot1, Robot robot2)
+        {
+            Console.WriteLine("col");
+            double temp = robot1.speed;
+            robot1.speed = -robot2.speed;
+            robot2.speed = -temp;
+            if (robot1.hasBall || robot2.hasBall)
+            {
+                Random rd = new Random();
+                if (rd.Next(5) > 3)
+                {
+                    if (robot1.hasBall)
+                    {
+                        robot1.hasBall = false;
+                        robot2.hasBall = true;
+                        team1Bal = false;
+                        team2Bal = true;
+                    }
+                    else
+                    {
+                        robot1.hasBall = true;
+                        robot2.hasBall = false;
+                        team1Bal = true;
+                        team2Bal = false;
+                    }
                 }
             }
         }
 
         #endregion game loop
 
+        #region RRT
+
+        private void initRRT()
+        {
+            time = 0;
+            team1 = new List<Robot>();
+            team2 = new List<Robot>();
+            Random rnd = new Random();
+            bal = new Bal(-(int)balstraal / 2, -(int)balstraal / 2, (int)balstraal);
+            for (int i = 0; i < 5; i++)
+            {
+                 team2.Add(new Robot(rnd.Next(-display.Width / 2 + (int)straal, 0 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height / 2 - (int)straal), straal));
+            }
+            team1.Add(new Robot(rnd.Next(0 + (int)straal, display.Width / 2 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height / 2 - (int)straal), straal));
+            
+        }
+
+
+        #endregion RRT   
+
         #region renderer
 
-		/// <summary>
-		/// Aanmaken backbuffer en transformaties
-		/// </summary>
+        /// <summary>
+        /// Aanmaken backbuffer en transformaties
+        /// </summary>
         private void InitRenderer()
         {
             backBuffer = new Bitmap(display.Width, display.Height);
@@ -310,7 +391,6 @@ namespace GDI_framework
 
             // display textboxes
             tijdBox.Text = String.Format("{0:F}", time / 1000.0d);
-            thetaBox.Text = String.Format("{0:F}", theta);
             label3.Text = "team blauw :" + Score[1];
             label4.Text = "team rood :" + Score[0];
 
@@ -323,14 +403,11 @@ namespace GDI_framework
             {
                 Rectangle box = new Rectangle(new System.Drawing.Point((int)(rb.x), (int)(rb.y)), new System.Drawing.Size((int)(rb.straal), (int)(rb.straal)));
                 screen.FillEllipse(new SolidBrush(Color.Red), box);
-                screen.DrawLine(new Pen(Color.Black), new System.Drawing.Point((int)(0), (int)(0)), new System.Drawing.Point((int)(rb.direction.X *10), (int)(rb.direction.Y*10)));
-
             }
             foreach (var rb in team2)
             {
                 Rectangle box = new Rectangle(new System.Drawing.Point((int)(rb.x), (int)(rb.y)), new System.Drawing.Size((int)(rb.straal), (int)(rb.straal)));
                 screen.FillEllipse(new SolidBrush(Color.SkyBlue), box);
-                screen.DrawLine(new Pen(Color.Black), new System.Drawing.Point(rb.x, (int)(rb.y + straal / 2)), new System.Drawing.Point((int)(rb.x + rb.straal / 2), (int)(rb.y + straal / 2)));
             }            
             screen.FillEllipse(new SolidBrush(Color.Black), new Rectangle(new System.Drawing.Point((int)(bal.x), (int)(bal.y)), new System.Drawing.Size((int)(bal.straal), (int)(bal.straal))));
         }
