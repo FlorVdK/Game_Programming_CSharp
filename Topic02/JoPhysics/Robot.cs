@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace JoPhysics
 {
@@ -14,7 +15,22 @@ namespace JoPhysics
         public double speed { get; set; }
         public double maxspeed { get; set; }
         public double acceleration { get; set; }
-        public double direction { get; set; }
+        public Vector direction
+        {
+            get
+            {
+                return this.Direction;
+            }
+            set
+            {
+                Vector v = value;
+                v.Normalize();
+                Vector.Multiply(v, straal);
+                Direction = v;
+            }
+        }
+
+        private Vector Direction;
 
         public Robot()
         {
@@ -31,7 +47,7 @@ namespace JoPhysics
             acceleration = 0.1;
         }
 
-        public Robot(int x, int y, double straal, double direction)
+        public Robot(int x, int y, double straal, Vector direction)
         {
             this.x = x;
             this.y = y;

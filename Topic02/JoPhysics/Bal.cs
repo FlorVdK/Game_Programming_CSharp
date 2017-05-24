@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace JoPhysics
 {
@@ -13,7 +14,7 @@ namespace JoPhysics
         public double speed { get; set; }
         public double maxspeed { get; set; }
         public double acceleration { get; set; }
-        public double direction { get; set; }
+        public Vector direction { get; set; }
 
         public Bal()
         {

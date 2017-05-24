@@ -12,6 +12,7 @@ namespace GDI_framework
         // Timing
 
         Timer timer;
+        int[] Score = new int[2] { 0, 0 };
 
         // Globale variabelen voor GDI+
         Graphics screen;
@@ -35,6 +36,7 @@ namespace GDI_framework
         double hoeksnelheid;         // in radialen/sec
         const double straal = 30.0d; //van de bol, in m
         const double balstraal = 15.0d; //van de bol, in m
+        double rico;
 
 
 
@@ -93,17 +95,20 @@ namespace GDI_framework
 
         private void button1_Click(object sender, EventArgs e)
         {
+            restart();
+        }
+
+        private void restart()
+        {
             stopButton.Enabled = false;
             startButton.Enabled = true;		//aanmaken inhoud form
             InitRenderer();             //aanmaken backbuffer 
             InitGame();					//Beginwaarden van de simulatie instellen
             InitTimer();
             timer.Enabled = false;
-
         }
 
         #endregion interactie
-
 
         #region game loop
 
@@ -112,9 +117,6 @@ namespace GDI_framework
         /// </summary>
         private void InitGame()
         {
-            R = 300.0d;
-            hoeksnelheid = Math.PI * 2 / 4.0d;
-            theta = 0.0d;
             time = 0;
             team1 = new List<Robot>();
             team2 = new List<Robot>();
@@ -122,27 +124,76 @@ namespace GDI_framework
             bal = new Bal(-(int)balstraal / 2, -(int)balstraal / 2, (int)balstraal);
             for (int i = 0; i < numberRobots; i++)
             {
-                team1.Add(new Robot(rnd.Next(0 + (int) straal, display.Width / 2 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height/2 - (int)straal), straal));
-                team2.Add(new Robot(rnd.Next(-display.Width / 2 + (int)straal, 0 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height/2 - (int)straal), straal));
+                team1.Add(new Robot(rnd.Next(0 + (int)straal, display.Width / 2 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height / 2 - (int)straal), straal));
+                team2.Add(new Robot(rnd.Next(-display.Width / 2 + (int)straal, 0 - (int)straal), rnd.Next(-display.Height / 2 + (int)straal, display.Height / 2 - (int)straal), straal));
+            }
+            SetDirection();
+        }
+
+        private void SetDirection()
+        {
+            foreach (var robot in team1)
+            {
+                Vector v = new Vector(robot.y + robot.straal / 2 - bal.y + bal.straal / 2, robot.x + robot.straal / 2 - bal.x + bal.straal / 2);
+                robot.direction = v;
+            }
+            foreach (var robot in team2)
+            {
+                Vector v = new Vector(bal.y + bal.straal / 2 - robot.y + robot.straal / 2, bal.x + bal.straal / 2 - robot.x + robot.straal / 2);
+                robot.direction = v;
             }
         }
 
 
-		/// <summary>
-		/// Elke iteratie de hoek van de bal bijwerken
-		/// </summary>
+        /// <summary>
+        /// Elke iteratie de hoek van de bal bijwerken
+        /// </summary>
         private void DoGame()
         {
+            switch (BalPosition())
+            {
+                case 0: break;
+                case 1:Goal(1);
+                    break;
+                case 2:Goal(2);
+                    break;
+                case 3:
+                    break;
+            }
+            SetDirection();
             time += timer.Interval;
             foreach( var robot in team1)
             {
-                theta = (robot.y - bal.y) / (robot.x - bal.x);
-                Console.WriteLine(theta);
+                theta = ((double) robot.y - (double)bal.y) / (double)(robot.x - (double)bal.x);
                 if (robot.speed < robot.maxspeed)
                 {
-                    robot.speed += robot.acceleration;
+                    robot.speed = 2;
                 }
-                robot.x -= (int) robot.speed;
+                if (robot.x >= 0)
+                {
+                    if (robot.y >= 0)
+                    {
+                        robot.x -= (int)(robot.speed * robot.direction.X);
+                        robot.y -= (int)(robot.speed * robot.direction.Y);
+                    }
+                    else
+                    {
+                        robot.x -= (int)(robot.speed * robot.direction.X);
+                        robot.y += (int)(robot.speed * robot.direction.Y);
+                    }
+                }else
+                {
+                    if (robot.y >= 0)
+                    {
+                        robot.x += (int)(robot.speed * robot.direction.X);
+                        robot.y -= (int)(robot.speed * robot.direction.Y);
+                    }
+                    else
+                    {
+                        robot.x -= (int)(robot.speed * robot.direction.X);
+                        robot.y -= (int)(robot.speed * robot.direction.Y);
+                    }
+                }
             }
             foreach (var robot in team2)
             {
@@ -153,6 +204,37 @@ namespace GDI_framework
                 robot.x += (int)robot.speed;
             }
             bal.x += (int)bal.speed;
+        }
+
+        public void Goal(int id)
+        {
+            switch (id)
+            {
+                case 1: Score[1]++;
+                    restart();
+                    break;
+                case 2:Score[0]++;
+                    restart();
+                    break;
+            }
+        }
+
+        private int BalPosition()
+        {
+            int b = 0;
+            if(bal.x >= 450 && bal.y <= 100 && bal.y >= -100)
+            {
+                b = 1;
+            }
+            if (bal.x <= -450 && bal.y <= 100 && bal.y >= -100)
+            {
+                b = 2;
+            }
+            if ( bal.y >= 300 || bal.y <= -300)
+            {
+                b = 3;
+            }
+            return b;
         }
 
         private void CheckCollision()
@@ -172,6 +254,13 @@ namespace GDI_framework
             foreach (var robot2 in team2)
             {
                 if (Math.Sqrt(Math.Pow((bal.x - robot2.x), 2) + Math.Pow((bal.y - robot2.y), 2)) < robot2.straal || Math.Sqrt(Math.Pow((bal.x - robot2.x), 2) + Math.Pow((bal.y - robot2.y), 2)) < bal.straal)
+                {
+                    bal.speed = robot2.speed;
+                }
+            }
+            foreach (var robot2 in team1)
+            {
+                if (Math.Sqrt(Math.Pow((bal.x +bal.straal/2 - (robot2.x + robot2.straal / 2)), 2) + Math.Pow((bal.y + bal.straal / 2 - (robot2.y + robot2.straal / 2)), 2)) < robot2.straal || Math.Sqrt(Math.Pow((bal.x + bal.straal / 2 - (robot2.x + robot2.straal / 2)), 2) + Math.Pow((bal.y + bal.straal / 2 - (robot2.y + robot2.straal / 2)), 2)) < bal.straal)
                 {
                     bal.speed = robot2.speed;
                 }
@@ -222,7 +311,8 @@ namespace GDI_framework
             // display textboxes
             tijdBox.Text = String.Format("{0:F}", time / 1000.0d);
             thetaBox.Text = String.Format("{0:F}", theta);
-
+            label3.Text = "team blauw :" + Score[1];
+            label4.Text = "team rood :" + Score[0];
 
         }
 
@@ -231,34 +321,35 @@ namespace GDI_framework
             List<Rectangle> boxes = new List<Rectangle>();
             foreach (var rb in team1)
             {
-                Rectangle box = new Rectangle(new Point((int)(rb.x), (int)(rb.y)), new Size((int)(rb.straal), (int)(rb.straal)));
+                Rectangle box = new Rectangle(new System.Drawing.Point((int)(rb.x), (int)(rb.y)), new System.Drawing.Size((int)(rb.straal), (int)(rb.straal)));
                 screen.FillEllipse(new SolidBrush(Color.Red), box);
-                screen.DrawLine(new Pen(Color.Black), new Point(rb.x, (int)(rb.y + straal/2)), new Point((int)(rb.x + rb.straal/2), (int)(rb.y + straal / 2)));
+                screen.DrawLine(new Pen(Color.Black), new System.Drawing.Point((int)(0), (int)(0)), new System.Drawing.Point((int)(rb.direction.X *10), (int)(rb.direction.Y*10)));
+
             }
             foreach (var rb in team2)
             {
-                Rectangle box = new Rectangle(new Point((int)(rb.x), (int)(rb.y)), new Size((int)(rb.straal), (int)(rb.straal)));
-                screen.FillEllipse(new SolidBrush(Color.Blue), box);
-                screen.DrawLine(new Pen(Color.Black), new Point(rb.x, (int)(rb.y + straal / 2)), new Point((int)(rb.x + rb.straal / 2), (int)(rb.y + straal / 2)));
+                Rectangle box = new Rectangle(new System.Drawing.Point((int)(rb.x), (int)(rb.y)), new System.Drawing.Size((int)(rb.straal), (int)(rb.straal)));
+                screen.FillEllipse(new SolidBrush(Color.SkyBlue), box);
+                screen.DrawLine(new Pen(Color.Black), new System.Drawing.Point(rb.x, (int)(rb.y + straal / 2)), new System.Drawing.Point((int)(rb.x + rb.straal / 2), (int)(rb.y + straal / 2)));
             }            
-            screen.FillEllipse(new SolidBrush(Color.Black), new Rectangle(new Point((int)(bal.x), (int)(bal.y)), new Size((int)(bal.straal), (int)(bal.straal))));
+            screen.FillEllipse(new SolidBrush(Color.Black), new Rectangle(new System.Drawing.Point((int)(bal.x), (int)(bal.y)), new System.Drawing.Size((int)(bal.straal), (int)(bal.straal))));
         }
 
         private void DrawField()
         {
             screen.Clear(Color.Green);
-            screen.DrawLine(new Pen(Color.White), new Point(-450, 300), new Point(450, 300));
-            screen.DrawLine(new Pen(Color.White), new Point(-450, -300), new Point(450, -300));
-            screen.DrawLine(new Pen(Color.White), new Point(-450, -300), new Point(-450, 300));
-            screen.DrawLine(new Pen(Color.White), new Point(450, -300), new Point(450, 300));
-            screen.DrawLine(new Pen(Color.White), new Point(0, -300), new Point(0, 300));
-            screen.DrawLine(new Pen(Color.White), new Point(475, -100), new Point(450, -100));
-            screen.DrawLine(new Pen(Color.White), new Point(475, -100), new Point(475, 100));
-            screen.DrawLine(new Pen(Color.White), new Point(475, 100), new Point(450, 100));
-            screen.DrawLine(new Pen(Color.White), new Point(-475, -100), new Point(-450, -100));
-            screen.DrawLine(new Pen(Color.White), new Point(-475, -100), new Point(-475, 100));
-            screen.DrawLine(new Pen(Color.White), new Point(-475, 100), new Point(-450, 100));
-            screen.DrawEllipse(new Pen(Color.White), new Rectangle(new Point((int)(-centerStraal / 2), (int)(-centerStraal / 2)), new Size((int)(centerStraal), (int)(centerStraal))));
+            screen.DrawLine(new Pen(Color.White), new System.Drawing.Point(-450, 300), new System.Drawing.Point(450, 300));
+            screen.DrawLine(new Pen(Color.White), new System.Drawing.Point(-450, -300), new System.Drawing.Point(450, -300));
+            screen.DrawLine(new Pen(Color.White), new System.Drawing.Point(-450, -300), new System.Drawing.Point(-450, 300));
+            screen.DrawLine(new Pen(Color.White), new System.Drawing.Point(450, -300), new System.Drawing.Point(450, 300));
+            screen.DrawLine(new Pen(Color.White), new System.Drawing.Point(0, -300), new System.Drawing.Point(0, 300));
+            screen.DrawLine(new Pen(Color.White), new System.Drawing.Point(475, -100), new System.Drawing.Point(450, -100));
+            screen.DrawLine(new Pen(Color.White), new System.Drawing.Point(475, -100), new System.Drawing.Point(475, 100));
+            screen.DrawLine(new Pen(Color.White), new System.Drawing.Point(475, 100), new System.Drawing.Point(450, 100));
+            screen.DrawLine(new Pen(Color.White), new System.Drawing.Point(-475, -100), new System.Drawing.Point(-450, -100));
+            screen.DrawLine(new Pen(Color.White), new System.Drawing.Point(-475, -100), new System.Drawing.Point(-475, 100));
+            screen.DrawLine(new Pen(Color.White), new System.Drawing.Point(-475, 100), new System.Drawing.Point(-450, 100));
+            screen.DrawEllipse(new Pen(Color.White), new Rectangle(new System.Drawing.Point((int)(-centerStraal / 2), (int)(-centerStraal / 2)), new System.Drawing.Size((int)(centerStraal), (int)(centerStraal))));
         }
 
 
